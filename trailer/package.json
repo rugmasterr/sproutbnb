@@ -1,0 +1,21 @@
+{
+  "name": "sprout-trailer",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sprout launch trailer (Remotion)",
+  "scripts": {
+    "audio": "node scripts/make-audio.mjs",
+    "studio": "remotion studio src/index.ts",
+    "render": "node scripts/render.mjs",
+    "stills": "node scripts/stills.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.539",
+    "@remotion/cli": "4.0.539",
+    "@remotion/google-fonts": "4.0.539",
+    "@remotion/renderer": "4.0.539",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.539"
+  }
+}

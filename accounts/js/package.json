@@ -1,0 +1,12 @@
+{
+  "name": "@sprout/accounts-js",
+  "private": true,
+  "type": "module",
+  "description": "Sprout passkey account helpers (challenge, WebAuthnSig encoding, counterfactual address). Depends only on viem.",
+  "scripts": {
+    "gen-fixture": "node gen-fixture.ts"
+  },
+  "peerDependencies": {
+    "viem": "^2"
+  }
+}

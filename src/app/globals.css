@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Tokens (RGB triplets so Tailwind can apply alpha) ---------- */
+:root,
+[data-theme='dark'] {
+  --bg: 11 21 16; /* #0B1510 deep bamboo-ink */
+  --raised: 16 30 22;
+  --card: 19 35 26;
+  --line: 44 72 54;
+  --fg: 244 238 220; /* paper */
+  --muted: 176 184 164;
+  --faint: 112 128 108;
+  --accent: 124 195 110; /* shoot-300 */
+  --accent-fg: 11 21 16;
+  --seal: 200 64 47;
+  --gold: 244 183 40; /* zec-gold #F4B728 */
+  --up: 124 195 110;
+  --down: 226 106 86;
+  --wash-a: 31 107 67;
+  --wash-b: 14 42 27;
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --bg: 244 238 220; /* rice paper */
+  --raised: 238 231 210;
+  --card: 250 246 234;
+  --line: 214 203 172;
+  --fg: 20 22 19; /* ink */
+  --muted: 84 90 78;
+  --faint: 138 136 118;
+  --accent: 31 107 67; /* bamboo-700 */
+  --accent-fg: 244 238 220;
+  --seal: 200 64 47;
+  --gold: 158 108 0;
+  --up: 31 120 67;
+  --down: 184 64 47;
+  --wash-a: 168 220 122;
+  --wash-b: 217 180 90;
+  color-scheme: light;
+}
+
+/* CJK fonts only take over when the UI language is Chinese. */
+html {
+  --font-cjk-serif: 'Songti SC', serif;
+  --font-cjk-sans: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+html[lang='zh-CN'] {
+  --font-cjk-serif: var(--font-noto-serif-sc);
+  --font-cjk-sans: var(--font-noto-sans-sc);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(1200px 600px at 85% -10%, rgb(var(--wash-a) / 0.16), transparent 60%),
+      radial-gradient(900px 500px at -10% 10%, rgb(var(--wash-b) / 0.22), transparent 65%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    background: rgb(var(--accent) / 0.35);
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line/70 bg-card/80 backdrop-blur-[2px];
+  }
+  .card-hover {
+    @apply transition duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-[0_10px_40px_-18px_rgb(var(--accent)/0.45)];
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition
+      disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-accent-fg hover:brightness-110 active:brightness-95;
+  }
+  .btn-ghost {
+    @apply btn border border-line bg-raised/60 text-fg hover:border-accent/60;
+  }
+  .btn-seal {
+    @apply btn bg-seal text-paper hover:brightness-110;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line bg-raised/70 px-3.5 py-2.5 text-sm text-fg placeholder:text-faint
+      outline-none transition focus:border-accent/70 focus:ring-2 focus:ring-accent/20;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-muted;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-1 text-xs text-muted transition hover:border-accent/60 hover:text-fg;
+  }
+  .chip-on {
+    @apply border-accent/70 bg-accent/15 text-fg;
+  }
+  .kicker {
+    @apply text-[11px] font-semibold uppercase tracking-[0.22em] text-accent;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  .link {
+    @apply text-accent underline-offset-4 hover:underline;
+  }
+  .zh-glyph {
+    font-family: var(--font-noto-serif-sc), 'Songti SC', serif;
+  }
+  .skeleton {
+    background: linear-gradient(90deg, rgb(var(--line) / 0.25), rgb(var(--line) / 0.55), rgb(var(--line) / 0.25));
+    background-size: 200% 100%;
+    @apply animate-shimmer rounded-lg;
+  }
+}
+
+/* Bamboo node divider: a stalk line with ring segments. */
+.bamboo-rule {
+  position: relative;
+  height: 14px;
+  background:
+    linear-gradient(rgb(var(--line)), rgb(var(--line))) center / 100% 1px no-repeat;
+}
+.bamboo-rule::before,
+.bamboo-rule::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  width: 5px;
+  border-radius: 3px;
+  background: rgb(var(--accent) / 0.65);
+  box-shadow: 0 0 0 3px rgb(var(--bg));
+}
+.bamboo-rule::before {
+  left: 18%;
+}
+.bamboo-rule::after {
+  right: 18%;
+}
+
+.stalk {
+  background: linear-gradient(90deg, transparent, rgb(var(--line)) 40%, rgb(var(--line)) 60%, transparent);
+  width: 3px;
+}
+
+/* Ink wash backdrop for page heads / hero */
+.ink-wash {
+  background:
+    radial-gradient(700px 260px at 15% 0%, rgb(var(--wash-a) / 0.22), transparent 70%),
+    radial-gradient(500px 240px at 90% 100%, rgb(var(--gold) / 0.07), transparent 70%);
+}
+
+.prose-sprout a {
+  @apply text-accent underline underline-offset-4 hover:brightness-110;
+}
+.prose-sprout table {
+  @apply my-4 w-full border-collapse text-sm;
+}
+.prose-sprout th {
+  @apply border-b border-line px-3 py-2 text-left font-semibold text-fg;
+}
+.prose-sprout td {
+  @apply border-b border-line/60 px-3 py-2 align-top text-muted;
+}
+.prose-sprout h3 {
+  @apply mt-6 text-lg font-semibold text-fg;
+}
+
+/* Paper grain */
+.grain::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.prose-sprout p {
+  @apply my-3 leading-7 text-muted;
+}
+.prose-sprout ul {
+  @apply my-3 list-disc space-y-1.5 pl-5 text-muted marker:text-accent;
+}
+.prose-sprout strong {
+  @apply font-semibold text-fg;
+}
+.prose-sprout code {
+  @apply rounded bg-raised px-1.5 py-0.5 font-mono text-[0.85em] text-fg;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

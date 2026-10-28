@@ -1,0 +1,58 @@
+# Sprout shield forwarder — fly.io config. NOT deployed. See README.md "Deploy" and "Before going live".
+#
+# Internal-only on purpose: there is NO [http_service] / [[services]] block, so fly assigns no public IP route
+# to this app. The relayer and keeper (same fly org) reach it over the private 6PN network at
+#   http://sprout-zforward.internal:8080        (the app binds HOST=:: so it listens on the 6PN IPv6 address)
+# and still send `Authorization: Bearer $FORWARDER_TOKEN`. A hot wallet with no public surface is the point.
+#
+# Exactly ONE machine: the wallet SQLite DB and the payout state live on one volume, and two instances would race
+# to spend the same notes. Never `fly scale count 2`.
+app = "sprout-zforward"
+primary_region = "hkg"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  HOST = "::"
+  ZCASH_NETWORK = "mainnet"
+  LIGHTWALLETD_URL = "zec.rocks:443"
+  ZCASH_CONNECTION = "direct"
+  WALLET_DIR = "/data/wallet"
+  STATE_FILE = "/data/zforward-state.json"
+  ONECLICK_BASE = "https://1click.chaindefuser.com/v0"
+  ONCHAIN_PROOF = "required"
+  MAX_PAYOUT_ZEC = "100"
+  MAX_DAILY_ZEC = "1000"
+  MAX_DAILY_PAYOUTS = "2000"
+  FEE_RESERVE_ZEC = "0.0004"
+  TICK_MS = "30000"
+  LOG_LEVEL = "info"
+  # The site sends the binding quoteRef for shielded cash-outs (sprout-shield:v1:<deposit>:<address>), so CashOut
+  # payouts whose quoteRef does not commit to the shielded address go to manual review instead of being forwarded.
+  REQUIRE_BOUND_QUOTEREF = "1"
+  # Secrets (fly secrets set ...), never in this file:
+  #   ZCASH_SEED (24-word BIP-39 phrase of the forwarder wallet), ZCASH_BIRTHDAY (block height the wallet was created),
+  #   FORWARDER_TOKEN (>= 24 chars, shared with relayer + keeper), FORWARDER_TADDR (expected t-address, sanity check),
+  #   BSC_RPC_URL, SPROUT_TERMINAL, SPROUT_PAYOUTS, ONECLICK_JWT (optional),
+  #   ADMIN_TOKEN (optional, >= 24 chars, != FORWARDER_TOKEN; operator-only re-queue route)
+
+[[mounts]]
+  source = "zforward_data"
+  destination = "/data"
+  initial_size = "3gb"
+
+# Machine-level health check over the private network (no public service needed).
+[checks]
+  [checks.healthz]
+    type = "http"
+    port = 8080
+    path = "/healthz"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "60s"
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "1gb"

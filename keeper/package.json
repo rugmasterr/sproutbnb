@@ -1,0 +1,27 @@
+{
+  "name": "sprout-keeper",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sprout (春笋) keeper: flushes vaults, runs Roots burn/liquidity, settles ZEC payouts and bridges to Zcash via NEAR Intents 1Click.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/index.js",
+    "dev": "npm run build && node dist/index.js",
+    "check-abi": "node scripts/check-abi.mjs",
+    "quote:zec": "node dist/cli/quote.js"
+  },
+  "dependencies": {
+    "@openzeppelin/merkle-tree": "^1.0.8",
+    "viem": "^2.57.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "~5.9.3"
+  }
+}

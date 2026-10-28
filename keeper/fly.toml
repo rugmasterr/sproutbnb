@@ -1,0 +1,45 @@
+# Sprout keeper on fly.io — one always-on machine with a small state volume.
+# Do NOT deploy before the Sprout contracts exist on BSC (see README).
+app = "sprout-keeper"
+primary_region = "hkg"
+kill_signal = "SIGTERM"
+kill_timeout = "10s"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "8080"
+  STATE_DIR = "/data"
+  CHAIN_ID = "56"
+  LOOP_INTERVAL_SEC = "60"
+  SLIPPAGE_BPS = "100"
+  # DRY_RUN is set as a secret (DRY_RUN=true first, then false after a clean dry run) — see README.
+  # Public addresses (not secrets) — set once the contracts are deployed:
+  # SPROUT_FACTORY = "0x…"
+  # BRIDGE_REFUND_TO = "0x…"   # where 1Click refunds BNB if a bridge fails (operator re-credits; see README)
+  # FORWARDER_URL = "https://sprout-zforward.internal:8080"
+  # FORWARDER_TADDR = "t1…"
+
+[[mounts]]
+  source = "keeper_state"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "20s"
+    interval = "30s"
+    method = "GET"
+    path = "/healthz"
+    timeout = "5s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

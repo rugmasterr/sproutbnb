@@ -1,0 +1,11 @@
+node_modules
+dist
+test
+sim/out
+sim/cache
+scripts
+*.md
+.env
+.env.*
+fly.toml
+.git

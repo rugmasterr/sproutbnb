@@ -1,0 +1,53 @@
+// Minimal Flap VaultPortal fragments (from contracts/src/flap/IVaultPortal.sol).
+export const vaultPortalAbi = [
+  {
+    type: 'function',
+    name: 'newTokenV6WithVault',
+    stateMutability: 'payable',
+    inputs: [
+      {
+        name: 'params',
+        type: 'tuple',
+        components: [
+          { name: 'name', type: 'string' },
+          { name: 'symbol', type: 'string' },
+          { name: 'meta', type: 'string' },
+          { name: 'dexThresh', type: 'uint8' },
+          { name: 'salt', type: 'bytes32' },
+          { name: 'migratorType', type: 'uint8' },
+          { name: 'quoteToken', type: 'address' },
+          { name: 'quoteAmt', type: 'uint256' },
+          { name: 'permitData', type: 'bytes' },
+          { name: 'extensionID', type: 'bytes32' },
+          { name: 'extensionData', type: 'bytes' },
+          { name: 'dexId', type: 'uint8' },
+          { name: 'lpFeeProfile', type: 'uint8' },
+          { name: 'buyTaxRate', type: 'uint16' },
+          { name: 'sellTaxRate', type: 'uint16' },
+          { name: 'taxDuration', type: 'uint64' },
+          { name: 'antiFarmerDuration', type: 'uint64' },
+          { name: 'mktBps', type: 'uint16' },
+          { name: 'deflationBps', type: 'uint16' },
+          { name: 'dividendBps', type: 'uint16' },
+          { name: 'lpBps', type: 'uint16' },
+          { name: 'minimumShareBalance', type: 'uint256' },
+          { name: 'dividendToken', type: 'address' },
+          { name: 'commissionReceiver', type: 'address' },
+          { name: 'tokenVersion', type: 'uint8' },
+          { name: 'vaultFactory', type: 'address' },
+          { name: 'vaultData', type: 'bytes' },
+        ],
+      },
+    ],
+    outputs: [{ name: 'token', type: 'address' }],
+  },
+  {
+    type: 'event',
+    name: 'FlapTaxVaultTokenCreated',
+    inputs: [
+      { name: 'token', type: 'address', indexed: true },
+      { name: 'vault', type: 'address', indexed: true },
+      { name: 'vaultFactory', type: 'address', indexed: true },
+    ],
+  },
+] as const;

@@ -1,0 +1,7 @@
+node_modules
+dist
+test
+*.log
+*.json.tmp
+zforward-state.json
+.env*

@@ -1,0 +1,60 @@
+# ---- dependencies / build output (all packages: site, keeper, relayer, zforward, trailer, accounts/js) ----
+node_modules/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+.vercel
+.turbo/
+
+# ---- env & secrets (examples are committed) ----
+.env
+.env.*
+*.env
+!.env.example
+!**/.env.example
+*.pem
+*.key
+
+# ---- foundry (contracts/ and accounts/) ----
+contracts/lib/
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+accounts/lib/
+accounts/out/
+accounts/cache/
+accounts/broadcast/
+relayer/sim/out/
+relayer/sim/cache/
+
+# ---- service state (never commit wallets, payout state, keeper/relayer state) ----
+state/
+**/state/
+keeper/state/
+zforward/data/
+zforward-state.json
+*.sqlite
+*.sqlite3
+*.db
+
+# ---- remotion trailer (rendered MP4s ship from public/trailer/, which is NOT ignored) ----
+trailer/node_modules/
+trailer/out/
+trailer/.remotion/
+
+# ---- playwright / test artifacts ----
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+coverage/
+
+# ---- misc ----
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

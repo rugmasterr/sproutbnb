@@ -1,0 +1,777 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "receive",
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "LP_BPS",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "MODE_HOLDERS",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8",
+        "internalType": "uint8"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "MODE_ME",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8",
+        "internalType": "uint8"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "MODE_WALLET",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8",
+        "internalType": "uint8"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "MODE_ZCASH_FOUNDATION",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8",
+        "internalType": "uint8"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "MODE_ZCASH_WALLET",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8",
+        "internalType": "uint8"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "OPS_BPS",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "PAYEE_BPS",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "ROOT_BPS",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "accountedQuote",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "controller",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "creator",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "description",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "factory",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "flush",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "inputs": [
+      {
+        "name": "taxToken_",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "mode_",
+        "type": "uint8",
+        "internalType": "uint8"
+      },
+      {
+        "name": "payee_",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "zcashAddress_",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "creator_",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "lpPot",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "mode",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8",
+        "internalType": "uint8"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "opsPot",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "payee",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "payeePot",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "payouts",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "rootPot",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "roots",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setPayee",
+    "inputs": [
+      {
+        "name": "newPayee",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setZcashAddress",
+    "inputs": [
+      {
+        "name": "addr",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "stats",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "received",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "toLiquidity",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "toRootstock",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "toOps",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "toPayee",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "pending",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "sync",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "taxToken",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "transferControl",
+    "inputs": [
+      {
+        "name": "to",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "vaultQuoteToken",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "pure"
+  },
+  {
+    "type": "function",
+    "name": "vaultSpecVersion",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "stateMutability": "pure"
+  },
+  {
+    "type": "function",
+    "name": "vaultUISchema",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "schema",
+        "type": "tuple",
+        "internalType": "struct VaultUISchema",
+        "components": [
+          {
+            "name": "vaultType",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "methods",
+            "type": "tuple[]",
+            "internalType": "struct VaultMethodSchema[]",
+            "components": [
+              {
+                "name": "name",
+                "type": "string",
+                "internalType": "string"
+              },
+              {
+                "name": "description",
+                "type": "string",
+                "internalType": "string"
+              },
+              {
+                "name": "inputs",
+                "type": "tuple[]",
+                "internalType": "struct FieldDescriptor[]",
+                "components": [
+                  {
+                    "name": "name",
+                    "type": "string",
+                    "internalType": "string"
+                  },
+                  {
+                    "name": "fieldType",
+                    "type": "string",
+                    "internalType": "string"
+                  },
+                  {
+                    "name": "description",
+                    "type": "string",
+                    "internalType": "string"
+                  },
+                  {
+                    "name": "decimals",
+                    "type": "uint8",
+                    "internalType": "uint8"
+                  }
+                ]
+              },
+              {
+                "name": "outputs",
+                "type": "tuple[]",
+                "internalType": "struct FieldDescriptor[]",
+                "components": [
+                  {
+                    "name": "name",
+                    "type": "string",
+                    "internalType": "string"
+                  },
+                  {
+                    "name": "fieldType",
+                    "type": "string",
+                    "internalType": "string"
+                  },
+                  {
+                    "name": "description",
+                    "type": "string",
+                    "internalType": "string"
+                  },
+                  {
+                    "name": "decimals",
+                    "type": "uint8",
+                    "internalType": "uint8"
+                  }
+                ]
+              },
+              {
+                "name": "approvals",
+                "type": "tuple[]",
+                "internalType": "struct ApproveAction[]",
+                "components": [
+                  {
+                    "name": "tokenType",
+                    "type": "string",
+                    "internalType": "string"
+                  },
+                  {
+                    "name": "amountFieldName",
+                    "type": "string",
+                    "internalType": "string"
+                  }
+                ]
+              },
+              {
+                "name": "isInputArray",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "isOutputArray",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "isWriteMethod",
+                "type": "bool",
+                "internalType": "bool"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "pure"
+  },
+  {
+    "type": "function",
+    "name": "zcashAddress",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "event",
+    "name": "ControlTransferred",
+    "inputs": [
+      {
+        "name": "previousController",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newController",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Flushed",
+    "inputs": [
+      {
+        "name": "toLiquidity",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "toRootstock",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "toOps",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "toPayee",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Initialized",
+    "inputs": [
+      {
+        "name": "version",
+        "type": "uint8",
+        "indexed": false,
+        "internalType": "uint8"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "OpsTransferFailed",
+    "inputs": [
+      {
+        "name": "treasury",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PayeeChanged",
+    "inputs": [
+      {
+        "name": "previousPayee",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newPayee",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PayoutsDepositFailed",
+    "inputs": [
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Revenue",
+    "inputs": [
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RootsDepositFailed",
+    "inputs": [
+      {
+        "name": "lpAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "rootAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ZcashAddressChanged",
+    "inputs": [
+      {
+        "name": "previous",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "name": "next",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "UnsupportedChain",
+    "inputs": [
+      {
+        "name": "chainId",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  }
+]

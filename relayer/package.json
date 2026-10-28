@@ -1,0 +1,32 @@
+{
+  "name": "@sprout/relayer",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Sprout (春笋) passkey relayer: submits passkey-signed SproutAccount batches on BNB Chain, plus shielded-payout registration for the Zcash shield forwarder.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "test:e2e": "tsx --test test/e2e/*.e2e.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.5",
+    "@noble/curves": "2.0.1",
+    "@noble/hashes": "2.0.1",
+    "@scure/base": "2.0.0",
+    "hono": "4.13.14",
+    "viem": "2.57.12",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsx": "4.23.15",
+    "typescript": "~5.9.3"
+  }
+}

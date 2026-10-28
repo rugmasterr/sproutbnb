@@ -1,0 +1,39 @@
+# Sprout (春笋) passkey relayer — fly.io config. Deploy steps: see README.md (not deployed yet).
+app = "sprout-relayer"
+primary_region = "hkg"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  CHAIN_ID = "56"
+  # Add your exact preview domain if needed (e.g. https://sprout-git-*-yourteam.vercel.app) - never bare *.vercel.app.
+  ALLOWED_ORIGINS = "https://sproutbnb.cash,https://www.sproutbnb.cash"
+  TRUST_PROXY = "fly"
+  # Secrets (fly secrets set ...): BSC_RPC_URL, RELAYER_PRIVATE_KEY, SPROUT_ACCOUNT_FACTORY,
+  #   FORWARDER_URL, FORWARDER_TOKEN, FORWARDER_TADDR, ONECLICK_JWT (optional)
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 200
+    hard_limit = 400
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    path = "/healthz"
+    timeout = "5s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
