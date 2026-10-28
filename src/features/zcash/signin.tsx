@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useConnect } from 'wagmi';
-import { ZecGlyph } from '@/components/brand';
+import { BnbGlyph, ZecGlyph } from '@/components/brand';
 import { isValidZcashAddress } from './address';
+import { StatusDot } from '@/components/fx';
 import { Callout, Spinner, ZcashAddressInput } from './components';
 import { errInfo } from './errors';
 import { useZT } from './i18n-hook';
@@ -30,18 +31,10 @@ export function SignInPanel({ initial = 'zcash', compact = false, onDone }: { in
   const [tab, setTab] = useState<SignInTab>(initial);
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-1 rounded-full border border-line bg-raised/50 p-1" role="tablist">
+      <div className="seg grid grid-cols-2" role="tablist">
         {(['zcash', 'bnb'] as const).map((k) => (
-          <button
-            key={k}
-            role="tab"
-            aria-selected={tab === k}
-            className={`inline-flex items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition ${
-              tab === k ? (k === 'zcash' ? 'bg-gold text-ink' : 'bg-accent text-accent-fg') : 'text-muted hover:text-fg'
-            }`}
-            onClick={() => setTab(k)}
-          >
-            {k === 'zcash' && <ZecGlyph size={14} />}
+          <button key={k} type="button" role="tab" aria-selected={tab === k} className="seg-btn inline-flex items-center justify-center gap-1.5" onClick={() => setTab(k)}>
+            {k === 'zcash' ? <ZecGlyph size={14} /> : <BnbGlyph size={14} />}
             {k === 'zcash' ? t('si.tabZcash') : t('si.tabBnb')}
           </button>
         ))}
@@ -89,9 +82,13 @@ function ZcashPath({ compact, onDone }: { compact: boolean; onDone?: () => void 
       {!supported && <Callout tone="err">{t('err.unsupported')}</Callout>}
 
       {acct.knownPasskey && (
-        <div className="rounded-xl border border-gold/40 bg-gold/10 p-3 text-sm">
-          <p className="mb-2">{t('si.welcomeBack')}</p>
-          <button type="button" className="btn-primary w-full" disabled={!live || !!busy} onClick={() => run('login')}>
+        <div className="glass relative overflow-hidden p-3.5 text-sm">
+          <div aria-hidden className="glow-yellow pointer-events-none absolute -left-10 -top-10 h-32 w-32 rounded-full" />
+          <p className="relative mb-2.5 flex items-start gap-2">
+            <StatusDot tone="yellow" className="mt-[7px]" />
+            {t('si.welcomeBack')}
+          </p>
+          <button type="button" className="btn-primary relative w-full" disabled={!live || !!busy} onClick={() => run('login')}>
             {busy === 'login' && <Spinner />}
             {t('si.signInPasskey')}
           </button>
@@ -101,14 +98,18 @@ function ZcashPath({ compact, onDone }: { compact: boolean; onDone?: () => void 
       <ZcashAddressInput value={refund} onChange={setRefund} kinds={['t']} label={t('si.refund')} id="si-refund" />
       <ZcashAddressInput value={payout} onChange={setPayout} label={t('si.payout')} id="si-payout" placeholder={t('si.payoutPh')} />
 
-      <label className="flex items-start gap-2.5 text-xs leading-5 text-muted">
-        <input type="checkbox" className="mt-0.5" checked={ack} onChange={(e) => setAck(e.target.checked)} />
+      <label
+        className={`flex cursor-pointer items-start gap-3 rounded-xl border px-3.5 py-3 text-xs leading-5 transition ${
+          ack ? 'border-accent/40 bg-accent/[0.05] text-fg' : 'border-line bg-white/[0.02] text-muted hover:border-line-2'
+        }`}
+      >
+        <input type="checkbox" className="mt-0.5 h-4 w-4 shrink-0" checked={ack} onChange={(e) => setAck(e.target.checked)} />
         <span>
           <strong className="font-semibold text-fg">{t('si.onlyKey')}</strong> {t('si.onlyKeyMore')}
         </span>
       </label>
 
-      <button type="button" className="btn w-full bg-gold py-2.5 text-ink hover:brightness-105" disabled={!canCreate || !!busy} onClick={() => run('create')}>
+      <button type="button" className={`${acct.knownPasskey ? 'btn-ghost' : 'btn-primary'} btn-lg w-full`} disabled={!canCreate || !!busy} onClick={() => run('create')}>
         {busy === 'create' && <Spinner />}
         {t('si.create')}
       </button>
@@ -138,7 +139,7 @@ function BnbPath({ onDone }: { onDone?: () => void }) {
           <button
             key={c.uid}
             type="button"
-            className="flex items-center gap-3 rounded-xl border border-line bg-raised/50 px-3.5 py-3 text-left text-sm transition hover:border-accent/60 disabled:opacity-50"
+            className="group flex items-center gap-3 rounded-xl border border-line bg-white/[0.02] px-3.5 py-3 text-left text-sm transition duration-300 ease-out hover:-translate-y-0.5 hover:border-accent/50 hover:bg-white/[0.04] disabled:opacity-50"
             disabled={isPending}
             onClick={async () => {
               setErr(null);
@@ -153,9 +154,15 @@ function BnbPath({ onDone }: { onDone?: () => void }) {
               }
             }}
           >
-            {c.icon ? <img src={c.icon} alt="" width={24} height={24} className="h-6 w-6 rounded" /> : <span className="grid h-6 w-6 place-items-center rounded bg-bamboo-700 text-[11px] font-bold text-leaf-200">◆</span>}
+            {c.icon ? <img src={c.icon} alt="" width={24} height={24} className="h-6 w-6 rounded" /> : <span className="grid h-6 w-6 place-items-center rounded-md border border-accent/40 bg-accent/10 text-[11px] font-bold text-accent">◆</span>}
             <span className="flex-1 font-medium">{c.id === 'injected' ? t('si.browserWallet') : c.name}</span>
-            {which === c.uid && <Spinner />}
+            {which === c.uid ? (
+              <Spinner className="text-accent" />
+            ) : (
+              <span aria-hidden className="font-mono text-faint transition group-hover:translate-x-0.5 group-hover:text-accent">
+                →
+              </span>
+            )}
           </button>
         ))}
         {!list.length && <Callout>{t('si.noWallet')}</Callout>}

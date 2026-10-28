@@ -11,5 +11,5 @@ export default function Page() {
   const dir = path.join(process.cwd(), 'public', 'trailer');
   const hasVideo = existsSync(path.join(dir, 'sprout-trailer.mp4'));
   const hasPoster = existsSync(path.join(dir, 'poster.jpg'));
-  return <DocPage page="about" toc={false} before={hasVideo ? <Trailer hasPoster={hasPoster} /> : undefined} />;
+  return <DocPage page="about" toc before={hasVideo ? <Trailer hasPoster={hasPoster} /> : undefined} />;
 }

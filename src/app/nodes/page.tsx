@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <>
       <NodesHead />
-      <div className="container py-8">
+      <div className="container py-10 sm:py-14">
         <NodesView />
       </div>
     </>

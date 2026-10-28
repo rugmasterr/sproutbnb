@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <>
       <LaunchHead />
-      <div className="container py-10">
+      <div className="container py-10 sm:py-14">
         <LaunchForm />
       </div>
     </>

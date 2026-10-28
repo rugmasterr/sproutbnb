@@ -4,5 +4,5 @@ import { DocPage } from '@/components/DocPage';
 export const metadata: Metadata = { title: 'Terms' };
 
 export default function Page() {
-  return <DocPage page="terms" toc={false} />;
+  return <DocPage page="terms" toc />;
 }

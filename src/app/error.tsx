@@ -2,6 +2,6 @@
 
 import { ErrorView } from '@/components/ErrorViews';
 
-export default function Error({ reset }: { error: Error; reset: () => void }) {
-  return <ErrorView reset={reset} />;
+export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  return <ErrorView reset={reset} digest={error?.digest} />;
 }

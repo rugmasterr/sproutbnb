@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <>
       <StatsHead />
-      <div className="container py-8">
+      <div className="container py-10 sm:py-14">
         <StatsView />
       </div>
     </>

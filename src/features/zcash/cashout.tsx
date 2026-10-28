@@ -127,12 +127,18 @@ export function CashOutPicker({ value, onChange, allowBsc = true }: { value: Cas
   }, [acct.ready, acct.kind, value.kind, payoutT, refund, onChange]);
 
   const opt = (active: boolean, disabled = false) =>
-    `w-full rounded-xl border px-3.5 py-3 text-left transition ${
-      active ? 'border-gold/60 bg-gold/10' : 'border-line bg-raised/50 hover:border-accent/50'
-    } ${disabled ? 'cursor-not-allowed opacity-50 hover:border-line' : ''}`;
+    `relative w-full overflow-hidden rounded-xl border px-3.5 py-3 text-left transition duration-300 ease-out ${
+      active
+        ? 'border-accent/55 bg-accent/[0.06] shadow-[0_10px_40px_-22px_rgb(var(--accent)/0.8),inset_0_1px_0_rgba(255,255,255,0.04)]'
+        : 'border-line bg-white/[0.02] hover:border-line-2 hover:bg-white/[0.035]'
+    } ${disabled ? 'cursor-not-allowed opacity-50 hover:border-line hover:bg-white/[0.02]' : ''}`;
   const dot = (active: boolean) => (
-    <span className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full border ${active ? 'border-gold' : 'border-line'}`}>
-      {active && <span className="h-2 w-2 rounded-full bg-gold" />}
+    <span
+      className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full border-[1.5px] transition ${
+        active ? 'border-accent shadow-[0_0_12px_rgb(var(--accent)/0.6)]' : 'border-line-2'
+      }`}
+    >
+      {active && <span className="h-[7px] w-[7px] rounded-full bg-accent" />}
     </span>
   );
 
@@ -166,7 +172,7 @@ export function CashOutPicker({ value, onChange, allowBsc = true }: { value: Cas
           <span className="min-w-0">
             <span className="flex flex-wrap items-center gap-2 text-sm font-medium">
               {t('co.shielded')}
-              {!SHIELDED_LIVE && <span className="rounded bg-raised px-1.5 py-px text-[10px] uppercase tracking-wide text-faint">{t('co.soon')}</span>}
+              {!SHIELDED_LIVE && <span className="tag-muted">{t('co.soon')}</span>}
             </span>
             <span className="block text-xs text-muted">{SHIELDED_LIVE ? t('co.shieldedHint', { max: SHIELD_MAX_PER_PAYOUT_ZEC }) : t('co.shieldedOff')}</span>
           </span>

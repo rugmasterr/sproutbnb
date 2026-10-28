@@ -43,6 +43,7 @@ zforward-state.json
 trailer/node_modules/
 trailer/out/
 trailer/.remotion/
+brand/node_modules/
 
 # ---- playwright / test artifacts ----
 playwright-report/
@@ -58,3 +59,5 @@ npm-debug.log*
 Thumbs.db
 .idea/
 .vscode/
+
+.vercel

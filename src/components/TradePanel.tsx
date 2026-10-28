@@ -140,144 +140,193 @@ export function TradePanel({
   const blocked = Boolean(disabledReason);
 
   return (
-    <div className="card p-4 sm:p-5">
-      <div className="grid grid-cols-2 gap-1 rounded-full bg-raised p-1">
-        {(['buy', 'sell'] as const).map((s) => (
-          <button
-            key={s}
-            type="button"
-            onClick={() => {
-              setSide(s);
-              setAmount('');
-              setStatus({ k: 'idle' });
-            }}
-            className={`rounded-full py-2 text-sm font-semibold transition ${
-              side === s ? (s === 'buy' ? 'bg-up text-bg' : 'bg-down text-bg') : 'text-muted hover:text-fg'
-            }`}
-          >
-            {s === 'buy' ? t('trade.buy') : t('trade.sell')}
-          </button>
-        ))}
+    <>
+    <div className="glass relative overflow-hidden">
+      <div aria-hidden className="pointer-events-none absolute -right-20 -top-24 h-56 w-56 rounded-full glow-yellow" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+      <div className="relative flex items-center justify-between gap-3 border-b border-line px-4 py-3 sm:px-5">
+        <span className="kicker">
+          <span aria-hidden className="status-dot" data-pulse={blocked ? 'false' : 'true'} style={{ ['--dot' as string]: blocked ? 'rgb(var(--faint))' : 'rgb(var(--bamboo))' }} />
+          {venue === 'portal' ? 'Flap Portal' : 'Sprout Terminal'}
+        </span>
+        <span className="truncate font-mono text-[11px] font-medium uppercase tracking-[0.06em] text-muted">${symbol}</span>
       </div>
 
-      <label className="mt-4 block">
-        <span className="label flex items-center justify-between">
-          <span className="flex items-center gap-1.5">
-            {side === 'buy' && <ZecGlyph size={12} />}
-            {side === 'buy' ? t('trade.payZec') : t('trade.payTok', { sym: symbol })}
+      <div className="relative p-4 sm:p-5">
+        <div className="grid grid-cols-2 gap-1 rounded-full border border-line bg-black/35 p-1" role="tablist">
+          {(['buy', 'sell'] as const).map((s) => (
+            <button
+              key={s}
+              type="button"
+              role="tab"
+              aria-selected={side === s}
+              onClick={() => {
+                setSide(s);
+                setAmount('');
+                setStatus({ k: 'idle' });
+              }}
+              className={`rounded-full py-2 font-mono text-[12px] font-semibold uppercase tracking-[0.08em] transition duration-200 ${
+                side === s
+                  ? s === 'buy'
+                    ? 'bg-up/15 text-up shadow-[inset_0_0_0_1px_rgb(var(--up)/0.45),0_0_24px_-6px_rgb(var(--up)/0.6)]'
+                    : 'bg-down/15 text-down shadow-[inset_0_0_0_1px_rgb(var(--down)/0.45),0_0_24px_-6px_rgb(var(--down)/0.6)]'
+                  : 'text-faint hover:text-fg'
+              }`}
+            >
+              {s === 'buy' ? t('trade.buy') : t('trade.sell')}
+            </button>
+          ))}
+        </div>
+
+        <label className="well mt-4 block px-3.5 pb-3 pt-2.5 transition focus-within:border-accent/70 focus-within:shadow-[0_0_0_4px_rgb(var(--accent)/0.12)]">
+          <span className="label mb-1 flex items-center justify-between gap-2">
+            <span className="flex min-w-0 items-center gap-1.5">
+              {side === 'buy' && <ZecGlyph size={12} />}
+              <span className="truncate">{side === 'buy' ? t('trade.payZec') : t('trade.payTok', { sym: symbol })}</span>
+            </span>
+            {connected && (
+              <button
+                type="button"
+                className="shrink-0 normal-case tracking-normal text-accent transition hover:text-accent-hi"
+                onClick={() => {
+                  if (side === 'sell') setAmount(String(weiToNum(tokenBal)));
+                }}
+              >
+                {side === 'buy' ? (
+                  acct.balanceWei !== undefined ? <ZecAmount wei={acct.balanceWei} /> : null
+                ) : (
+                  `${t('ui.max')} ${fmtAmt(weiToNum(tokenBal))}`
+                )}
+              </button>
+            )}
           </span>
-          {connected && (
+          <span className="flex items-baseline gap-2">
+            <input
+              className="num w-full min-w-0 bg-transparent font-mono text-[1.65rem] font-semibold tracking-[-0.02em] text-fg outline-none placeholder:text-faint/60 disabled:opacity-60"
+              inputMode="decimal"
+              placeholder="0.0"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ''))}
+              disabled={blocked}
+            />
+            <span className={`shrink-0 font-mono text-xs font-semibold uppercase ${side === 'buy' ? 'text-gold' : 'text-muted'}`}>
+              {side === 'buy' ? 'ZEC' : symbol}
+            </span>
+          </span>
+        </label>
+
+        {side === 'buy' && !zecUsd && <p className="mt-2 text-xs text-gold">{t('trade.needRate')}</p>}
+
+        <div className="mt-3 rounded-xl border border-line bg-white/[0.02] px-3.5 py-1.5">
+          <Row
+            k={t('trade.receive')}
+            v={
+              quote.isFetching && out === undefined ? (
+                <span className="font-mono text-xs text-faint">{t('trade.quoting')}</span>
+              ) : out === undefined ? (
+                '—'
+              ) : side === 'buy' ? (
+                <span className="font-mono">{`${fmtAmt(weiToNum(out))} ${symbol}`}</span>
+              ) : (
+                <ZecAmount wei={out} showBnb />
+              )
+            }
+          />
+          <Row
+            k={t('trade.minReceive')}
+            v={
+              minOut === undefined ? (
+                '—'
+              ) : side === 'buy' ? (
+                <span className="font-mono text-muted">{`${fmtAmt(weiToNum(minOut))} ${symbol}`}</span>
+              ) : (
+                <ZecAmount wei={minOut} />
+              )
+            }
+          />
+          <div className="flex flex-wrap items-center justify-between gap-2 py-2 text-sm">
+            <span className="text-muted">{t('trade.slippage')}</span>
+            <div className="flex gap-1">
+              {SLIPPAGES.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setSlip(s)}
+                  aria-pressed={slip === s}
+                  className={`chip px-2 py-0.5 ${slip === s ? 'chip-on' : ''}`}
+                >
+                  {s / 100}%
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        {quote.isError && (
+          <p className="mt-2 text-xs text-down">
+            {t('trade.quoteFail')} <span className="font-mono text-[11px] opacity-80">{errText(quote.error)}</span>
+          </p>
+        )}
+
+        {side === 'sell' && (
+          <div className="mt-4 space-y-2">
+            <span className="label">{t('trade.cashOut')}</span>
+            <CashOutPicker value={cashOut} onChange={setCashOut} />
+            {cashOut.kind !== 'bsc' && <p className="text-xs text-faint">{t('trade.cashOutNote')}</p>}
+          </div>
+        )}
+
+        <div className="mt-4">
+          {blocked ? (
+            <Notice tone="warn">{disabledReason}</Notice>
+          ) : !connected ? (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-dashed border-line-2 px-3.5 py-3">
+              <span className="text-sm text-muted">{t('ui.connectFirst')}</span>
+              <ConnectButton />
+            </div>
+          ) : (
             <button
               type="button"
-              className="normal-case tracking-normal text-accent"
-              onClick={() => {
-                if (side === 'sell') setAmount(String(weiToNum(tokenBal)));
-              }}
+              className={`btn-lg w-full ${side === 'buy' ? 'btn-primary' : 'btn-seal'}`}
+              disabled={status.k === 'busy' || !inWei || minOut === undefined || insufficient}
+              onClick={submit}
             >
-              {side === 'buy' ? (
-                acct.balanceWei !== undefined ? <ZecAmount wei={acct.balanceWei} /> : null
-              ) : (
-                `${t('ui.max')} ${fmtAmt(weiToNum(tokenBal))}`
-              )}
+              {status.k === 'busy' ? t('trade.working') : insufficient ? t('trade.insufficient') : t('trade.submit')}
+              {status.k !== 'busy' && !insufficient && <span className="arr">→</span>}
             </button>
           )}
-        </span>
-        <input
-          className="input num text-lg"
-          inputMode="decimal"
-          placeholder="0.0"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ''))}
-          disabled={blocked}
-        />
-      </label>
+          {connected && acct.kind === 'passkey' && side === 'buy' && (
+            <button
+              type="button"
+              className="mt-2 w-full text-center font-mono text-[11px] uppercase tracking-[0.08em] text-accent transition hover:text-accent-hi"
+              onClick={() => setDepositOpen(true)}
+            >
+              + {t('trade.deposit')}
+            </button>
+          )}
+        </div>
 
-      {side === 'buy' && !zecUsd && <p className="mt-2 text-xs text-gold">{t('trade.needRate')}</p>}
-
-      <div className="mt-3 rounded-xl bg-raised/60 px-3 py-2">
-        <Row
-          k={t('trade.receive')}
-          v={
-            quote.isFetching && out === undefined ? (
-              t('trade.quoting')
-            ) : out === undefined ? (
-              '—'
-            ) : side === 'buy' ? (
-              `${fmtAmt(weiToNum(out))} ${symbol}`
-            ) : (
-              <ZecAmount wei={out} showBnb />
-            )
-          }
-        />
-        <Row
-          k={t('trade.minReceive')}
-          v={minOut === undefined ? '—' : side === 'buy' ? `${fmtAmt(weiToNum(minOut))} ${symbol}` : <ZecAmount wei={minOut} />}
-        />
-        <div className="flex items-center justify-between gap-2 py-1.5 text-sm">
-          <span className="text-muted">{t('trade.slippage')}</span>
-          <div className="flex gap-1">
-            {SLIPPAGES.map((s) => (
-              <button key={s} type="button" onClick={() => setSlip(s)} className={`chip px-2 py-0.5 ${slip === s ? 'chip-on' : ''}`}>
-                {s / 100}%
-              </button>
-            ))}
+        {status.k === 'done' && (
+          <div className="mt-3">
+            <Notice tone="ok">
+              {t('trade.done')} ·{' '}
+              <a className="link" href={explorerTx(status.tx)} target="_blank" rel="noopener noreferrer">
+                {t('trade.viewTx')}
+              </a>
+            </Notice>
           </div>
-        </div>
-      </div>
-      {quote.isError && <p className="mt-2 text-xs text-down">{t('trade.quoteFail')} {errText(quote.error)}</p>}
-
-      {side === 'sell' && (
-        <div className="mt-4 space-y-2">
-          <span className="label">{t('trade.cashOut')}</span>
-          <CashOutPicker value={cashOut} onChange={setCashOut} />
-          {cashOut.kind !== 'bsc' && <p className="text-xs text-faint">{t('trade.cashOutNote')}</p>}
-        </div>
-      )}
-
-      <div className="mt-4">
-        {blocked ? (
-          <Notice tone="warn">{disabledReason}</Notice>
-        ) : !connected ? (
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="text-sm text-muted">{t('ui.connectFirst')}</span>
-            <ConnectButton />
+        )}
+        {status.k === 'error' && (
+          <div className="mt-3">
+            <Notice tone="err">{status.msg}</Notice>
           </div>
-        ) : (
-          <button
-            type="button"
-            className={`w-full py-3 text-base ${side === 'buy' ? 'btn-primary' : 'btn-seal'}`}
-            disabled={status.k === 'busy' || !inWei || minOut === undefined || insufficient}
-            onClick={submit}
-          >
-            {status.k === 'busy' ? t('trade.working') : insufficient ? t('trade.insufficient') : t('trade.submit')}
-          </button>
         )}
-        {connected && acct.kind === 'passkey' && side === 'buy' && (
-          <button type="button" className="mt-2 w-full text-center text-xs text-accent" onClick={() => setDepositOpen(true)}>
-            + {t('trade.deposit')}
-          </button>
-        )}
+        <p className="mt-4 border-t border-line pt-3 text-[11px] leading-relaxed text-faint">
+          {venue === 'portal' ? t('trade.taxNote') : t('term.fee')} {side === 'sell' && t('trade.approveNote')}
+        </p>
       </div>
-
-      {status.k === 'done' && (
-        <div className="mt-3">
-          <Notice tone="ok">
-            {t('trade.done')} ·{' '}
-            <a className="link" href={explorerTx(status.tx)} target="_blank" rel="noopener noreferrer">
-              {t('trade.viewTx')}
-            </a>
-          </Notice>
-        </div>
-      )}
-      {status.k === 'error' && (
-        <div className="mt-3">
-          <Notice tone="err">{status.msg}</Notice>
-        </div>
-      )}
-      <p className="mt-3 text-[11px] leading-relaxed text-faint">
-        {venue === 'portal' ? t('trade.taxNote') : t('term.fee')} {side === 'sell' && t('trade.approveNote')}
-      </p>
-      <DepositZecDialog open={depositOpen} onClose={() => setDepositOpen(false)} />
     </div>
+    {/* outside .glass: backdrop-filter would trap the fixed-position dialog */}
+    <DepositZecDialog open={depositOpen} onClose={() => setDepositOpen(false)} />
+    </>
   );
 }

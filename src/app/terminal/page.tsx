@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <>
       <TerminalHead />
-      <div className="container py-8">
+      <div className="container py-10 sm:py-14">
         <Suspense fallback={<div className="skeleton h-40 w-full" />}>
           <TerminalView />
         </Suspense>

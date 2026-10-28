@@ -60,7 +60,7 @@ export function ConnectButton() {
     <div className="relative" ref={ref}>
       <button
         type="button"
-        className="inline-flex items-center gap-2 rounded-full border border-line bg-raised/70 py-1 pl-1.5 pr-3 text-sm transition hover:border-gold/60"
+        className="inline-flex items-center gap-2 rounded-full border border-line-2 bg-raised/70 py-1 pl-1.5 pr-3 text-sm transition hover:border-accent/60 hover:shadow-[0_0_0_4px_rgb(var(--accent)/0.1)]"
         onClick={() => setMenu((m) => !m)}
         aria-haspopup="menu"
         aria-expanded={menu}
@@ -72,10 +72,14 @@ export function ConnectButton() {
         <span className="hidden font-mono text-xs text-muted md:inline">{shortZ(addr, 4)}</span>
       </button>
       {menu && (
-        <div role="menu" className="absolute right-0 z-[60] mt-2 w-72 animate-rise rounded-2xl border border-line bg-card p-2 shadow-2xl">
+        <div role="menu" className="absolute right-0 z-[60] mt-2 w-72 max-w-[calc(100vw-2rem)] animate-fade-up overflow-hidden rounded-2xl border border-line-2 bg-card/95 p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
           <div className="px-2.5 pb-2 pt-1.5">
-            <div className="text-[11px] uppercase tracking-[0.14em] text-faint">{acct.kind === 'passkey' ? t('cb.sproutAccount') : t('cb.bnbWallet')}</div>
-            <div className="mt-1 text-lg font-semibold">{acct.balanceWei !== undefined ? <ZecAmount wei={acct.balanceWei} showBnb /> : '—'}</div>
+            <div className="flex items-center gap-2 font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] text-faint">
+              <span aria-hidden className="status-dot" style={{ ['--dot' as string]: 'rgb(var(--bamboo))' }} />
+              {acct.kind === 'passkey' ? t('cb.sproutAccount') : t('cb.bnbWallet')}
+            </div>
+            <div className="mt-1.5 text-xl font-semibold tracking-[-0.03em]">{acct.balanceWei !== undefined ? <ZecAmount wei={acct.balanceWei} showBnb /> : '—'}</div>
             <button
               type="button"
               className="mt-0.5 font-mono text-xs text-muted hover:text-fg"
@@ -100,13 +104,13 @@ export function ConnectButton() {
               {t('cb.withdraw')}
             </Link>
           </div>
-          <div className="border-t border-line/70 pt-1">
+          <div className="border-t border-line pt-1">
             <MenuLink href="/account" onClick={() => setMenu(false)}>{t('cb.account')}</MenuLink>
             <MenuLink href="/zec" onClick={() => setMenu(false)}>{t('cb.moveZec')}</MenuLink>
-            <a role="menuitem" className="block rounded-lg px-2.5 py-2 text-sm text-muted hover:bg-raised hover:text-fg" href={explorerAddr(addr)} target="_blank" rel="noopener noreferrer">
+            <a role="menuitem" className="block rounded-lg px-2.5 py-2 text-sm text-muted hover:bg-white/[0.05] hover:text-fg" href={explorerAddr(addr)} target="_blank" rel="noopener noreferrer">
               {t('cb.explorer')} ↗
             </a>
-            <button role="menuitem" type="button" className="block w-full rounded-lg px-2.5 py-2 text-left text-sm text-muted hover:bg-raised hover:text-down" onClick={() => { setMenu(false); acct.logout(); }}>
+            <button role="menuitem" type="button" className="block w-full rounded-lg px-2.5 py-2 text-left text-sm text-muted hover:bg-down/[0.08] hover:text-down" onClick={() => { setMenu(false); acct.logout(); }}>
               {t('cb.signOut')}
             </button>
           </div>
@@ -119,7 +123,7 @@ export function ConnectButton() {
 
 function MenuLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick(): void }) {
   return (
-    <Link role="menuitem" href={href} onClick={onClick} className="block rounded-lg px-2.5 py-2 text-sm text-muted hover:bg-raised hover:text-fg">
+    <Link role="menuitem" href={href} onClick={onClick} className="block rounded-lg px-2.5 py-2 text-sm text-muted hover:bg-white/[0.05] hover:text-fg">
       {children}
     </Link>
   );

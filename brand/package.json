@@ -1,0 +1,14 @@
+{
+  "name": "sprout-brand-renderer",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Renders Sprout launch social assets (PFP, token logo, banners) from HTML/SVG via headless Chrome.",
+  "scripts": {
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "@fontsource/noto-sans-sc": "^5.3.1",
+    "geist": "^1.8.2",
+    "puppeteer-core": "^23.11.1"
+  }
+}

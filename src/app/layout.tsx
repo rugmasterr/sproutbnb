@@ -1,23 +1,19 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Inter, Noto_Sans_SC, Noto_Serif_SC } from 'next/font/google';
+import { Noto_Sans_SC } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import { cookies } from 'next/headers';
 import './globals.css';
 import { Providers } from '@/components/Providers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { Grain } from '@/components/fx/Grain';
 import { LANG_COOKIE } from '@/i18n/dict';
 import { SITE_URL } from '@/lib/config';
 
-const display = Fraunces({ subsets: ['latin'], variable: '--font-display', display: 'swap', axes: ['opsz', 'SOFT'] });
-const ui = Inter({ subsets: ['latin'], variable: '--font-ui', display: 'swap' });
-// CJK fonts are only *used* when lang="zh-CN" (see globals.css); files load lazily by unicode-range.
-const notoSerif = Noto_Serif_SC({
-  weight: ['500', '700'],
-  subsets: ['latin'],
-  variable: '--font-noto-serif-sc',
-  display: 'swap',
-  preload: false,
-});
+// Latin: Geist (--font-geist-sans) + Geist Mono (--font-geist-mono).
+// CJK: Noto Sans SC, always in the stack after Geist so Han glyphs (春笋 etc.) render well in both
+// languages; Google's unicode-range slices mean only the glyphs on the page are downloaded.
 const notoSans = Noto_Sans_SC({
   weight: ['400', '500', '700'],
   subsets: ['latin'],
@@ -42,27 +38,25 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#0B1510' },
-    { media: '(prefers-color-scheme: light)', color: '#F4EEDC' },
-  ],
+  themeColor: '#07080A',
+  colorScheme: 'dark',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jar = cookies();
   const langCookie = jar.get(LANG_COOKIE)?.value;
   const lang = langCookie === 'zh' ? 'zh' : 'en';
-  const theme = jar.get('sprout_theme')?.value === 'light' ? 'light' : 'dark';
   return (
     <html
       lang={lang === 'zh' ? 'zh-CN' : 'en'}
-      data-theme={theme}
-      className={`${display.variable} ${ui.variable} ${notoSerif.variable} ${notoSans.variable}`}
+      data-theme="dark"
+      className={`${GeistSans.variable} ${GeistMono.variable} ${notoSans.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen">
+        <Grain />
         <Providers lang={lang} hasLangCookie={Boolean(langCookie)}>
-          <div className="flex min-h-screen flex-col">
+          <div className="relative z-[2] flex min-h-screen flex-col">
             <Header />
             <main id="main" className="flex-1">{children}</main>
             <Footer />
