@@ -6,7 +6,7 @@ import { useI18n } from '@/i18n/I18nProvider';
 import type { Key } from '@/i18n/dict';
 import type { Stage } from '@/lib/types';
 import { fmtAmt, weiToNum } from '@/lib/format';
-import { Mark, Stalks, ZecGlyph } from './brand';
+import { Stalks, ZecGlyph } from './brand';
 
 export function Modal({
   open,
@@ -195,26 +195,6 @@ export function ErrorNote({ onRetry, detail }: { onRetry?: () => void; detail?: 
           {t('ui.retry')}
         </button>
       )}
-    </div>
-  );
-}
-
-export function PrelaunchBanner({ compact = false, text }: { compact?: boolean; text?: string }) {
-  const { t } = useI18n();
-  return (
-    <div className="glass relative flex items-start gap-4 overflow-hidden p-4 sm:p-5">
-      <div aria-hidden className="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full glow-yellow" />
-      <span aria-hidden className={`relative grid shrink-0 place-items-center rounded-xl border border-accent/35 bg-ink/70 shadow-[0_0_24px_-6px_rgb(var(--accent)/0.55)] ${compact ? 'h-9 w-9' : 'h-11 w-11'}`}>
-        <Mark size={compact ? 20 : 26} />
-      </span>
-      <div className="relative min-w-0">
-        <span className="kicker">
-          <span aria-hidden className="status-dot" data-pulse="true" style={{ ['--dot' as string]: 'rgb(var(--accent))' }} />
-          {t('pre.badge')}
-        </span>
-        <h3 className="mt-1.5 text-lg font-semibold tracking-[-0.025em]">{t('pre.title')}</h3>
-        {!compact && <p className="mt-1 text-sm text-muted">{text ?? t('pre.body')}</p>}
-      </div>
     </div>
   );
 }

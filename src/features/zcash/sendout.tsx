@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { ZecGlyph } from '@/components/brand';
+import { useGate } from '@/components/ComingSoon';
 import { StatusDot } from '@/components/fx';
 import { bridgeBnbCall } from '@/lib/trade';
 import { KV, NodeStepper, useL, ZC } from './zfx';
@@ -22,6 +23,7 @@ export function SendOutFlow() {
   const { t } = useZT();
   const l = useL();
   const acct = useSproutAccount();
+  const gate = useGate();
   const { zecToBnbWei, bnbWeiToZec } = useZec();
   const [choice, setChoice] = useState<CashOutChoice>({ kind: 'zcash', tAddress: '' });
   const [amount, setAmount] = useState('');
@@ -187,7 +189,7 @@ export function SendOutFlow() {
       {previewErr ? <ErrorLine e={previewErr} /> : null}
       {acct.kind === 'passkey' && !acct.relayerLive && <Callout tone="warn">{t('err.relayerOff')}</Callout>}
 
-      <button type="button" className="btn-primary btn-lg w-full" disabled={!wei || tooMuch || !destOk || busy || !preview} onClick={send}>
+      <button type="button" className="btn-primary btn-lg w-full" disabled={!wei || tooMuch || !destOk || busy || !preview} onClick={gate(send)}>
         {busy && <Spinner />}
         {acct.kind === 'passkey' ? t('out.sendPasskey') : t('out.sendWallet')}
         <span className="arr" aria-hidden>

@@ -3,6 +3,7 @@ import { QuoteError } from './oneclick';
 import { friendlyPasskeyError } from './passkey/webauthn';
 
 const CODES: Record<string, ZKey> = {
+  'coming-soon': 'err.comingSoon',
   'accounts-not-live': 'err.notLive',
   'relayer-not-configured': 'err.relayerOff',
   'bad-refund': 'err.badRefund',

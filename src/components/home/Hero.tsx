@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useI18n } from '@/i18n/I18nProvider';
-import { IS_LIVE, IS_TESTNET, CHAIN_ID, explorerToken, sprout } from '@/lib/config';
+import { IS_TESTNET, explorerAddr, explorerToken, sprout } from '@/lib/config';
 import { ZecGlyph } from '../brand';
+import { ActionLink } from '../ComingSoon';
 import { CopyChip, HeroCanvas, Kicker, NodeRing, Rise, Scramble, StatusLine } from '../fx';
 import { C, useL } from './copy';
 
@@ -43,12 +44,12 @@ export function Hero() {
             <div className="glass relative min-w-0 overflow-hidden p-4 sm:p-5">
               <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <StatusLine tone={IS_LIVE ? 'green' : 'yellow'}>
-                  {L(IS_TESTNET ? C.hero.testnet : C.hero.mainnet)} {'\u00b7'} {CHAIN_ID}
+                <StatusLine tone="green">
+                  {L(IS_TESTNET ? C.hero.testnet : C.hero.mainnet)} {'\u00b7'} {L(C.hero.liveTag)}
                 </StatusLine>
                 <span className="tag-yellow">{L(C.hero.flap)}</span>
               </div>
-              <p className="mt-3 text-sm text-muted">{L(IS_LIVE ? C.hero.live : C.hero.pre)}</p>
+              <p className="mt-3 text-sm text-muted">{L(C.hero.live)}</p>
               <div className="mt-3 flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.06em] text-faint" aria-label={L(C.hero.stages)}>
                 <span className="inline-flex items-center gap-1.5 text-accent-hi">
                   <NodeRing tone="yellow" />
@@ -66,9 +67,9 @@ export function Hero() {
                 </span>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
-                <Link href="/launch" className="btn-primary">
+                <ActionLink href="/launch" className="btn-primary">
                   {t('home.ctaLaunch')} <span className="arr">{'\u2192'}</span>
-                </Link>
+                </ActionLink>
                 <Link href="/terminal" className="btn-ghost">
                   {L(C.hero.terminal)}
                 </Link>
@@ -100,12 +101,9 @@ export function Hero() {
           <Rise d={5} className="mt-5 flex min-w-0 flex-wrap items-center gap-3">
             {sprout.token ? (
               <CopyChip label="$SPROUT" value={sprout.token} href={explorerToken(sprout.token)} />
-            ) : (
-              <span className="inline-flex max-w-full items-center overflow-hidden rounded-full border border-line-2 bg-raised/80 font-mono text-xs">
-                <span className="shrink-0 border-r border-line-2 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.08em] text-accent">$SPROUT</span>
-                <span className="min-w-0 truncate px-3 py-1.5 text-muted">{L(C.hero.ca)}</span>
-              </span>
-            )}
+            ) : sprout.factory ? (
+              <CopyChip label={L(C.hero.contract)} value={sprout.factory} href={explorerAddr(sprout.factory)} />
+            ) : null}
           </Rise>
         </div>
       </div>

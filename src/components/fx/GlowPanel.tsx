@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 
 type Tone = 'yellow' | 'green';
 
@@ -12,6 +12,7 @@ export function GlowPanel({
   tone = 'yellow',
   grid = true,
   href,
+  onClick,
   className = '',
   as: Tag = 'div',
 }: {
@@ -19,12 +20,14 @@ export function GlowPanel({
   tone?: Tone;
   grid?: boolean;
   href?: string;
+  /** Whole panel acts as a button (used instead of href). */
+  onClick?: () => void;
   className?: string;
   as?: 'div' | 'section' | 'aside';
 }) {
   const rgb = tone === 'yellow' ? 'var(--accent)' : 'var(--bamboo)';
   const cls = `group relative block overflow-hidden rounded-3xl border border-line-2 p-6 text-fg transition duration-500 ease-out sm:p-10 lg:p-14 ${
-    href ? 'hover:-translate-y-0.5 hover:border-accent/50' : ''
+    href || onClick ? 'cursor-pointer hover:-translate-y-0.5 hover:border-accent/50' : ''
   } ${className}`;
   const style = {
     background: `radial-gradient(120% 140% at 0% 0%, rgb(${rgb} / 0.20), transparent 55%), linear-gradient(90deg, rgb(var(--card) / 0.92), rgb(var(--raised) / 0.75) 55%, rgb(var(--raised) / 0.35))`,
@@ -45,6 +48,24 @@ export function GlowPanel({
       <Link href={href} className={cls} style={style}>
         {inner}
       </Link>
+    );
+  if (onClick)
+    return (
+      <div
+        role="button"
+        tabIndex={0}
+        className={cls}
+        style={style}
+        onClick={onClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick();
+          }
+        }}
+      >
+        {inner}
+      </div>
     );
   return (
     <Tag className={cls} style={style}>

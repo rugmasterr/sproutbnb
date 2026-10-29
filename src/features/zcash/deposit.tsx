@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ZecGlyph } from '@/components/brand';
 import { NodeRing, StatusDot } from '@/components/fx';
+import { useGate } from '@/components/ComingSoon';
 import { Modal } from '@/components/ui';
 import { isValidZcashAddress, shortZ } from './address';
 import { Callout, CopyField, fmtBnb, fmtUsd, fmtZec, Qr, Spinner, SwapProgress, ZcashAddressInput } from './components';
@@ -42,6 +43,7 @@ export function DepositFlow({ onDone }: { onDone?: () => void }) {
   const { t } = useZT();
   const l = useL();
   const acct = useSproutAccount();
+  const gate = useGate();
   const { zecUsd } = usePrices();
   const [amount, setAmount] = useState('');
   const [refund, setRefund] = useState('');
@@ -195,7 +197,7 @@ export function DepositFlow({ onDone }: { onDone?: () => void }) {
         <span>{t('dep.ack', { min: DEPOSIT_DEADLINE_MIN })}</span>
       </label>
 
-      <button type="button" className="btn-primary btn-lg w-full" disabled={!units || !refundOk || !ack || busy || !!previewErr} onClick={start}>
+      <button type="button" className="btn-primary btn-lg w-full" disabled={!units || !refundOk || !ack || busy || !!previewErr} onClick={gate(start)}>
         {busy && <Spinner />}
         {t('dep.getAddress')}
         <span className="arr" aria-hidden>

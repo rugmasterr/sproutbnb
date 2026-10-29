@@ -9,7 +9,7 @@ import { big, fmtAmt, fmtNum, shortAddr, timeAgo, weiToNum } from '@/lib/format'
 import { useStats } from '@/lib/useApi';
 import { CountUp, Kicker, NodeRing, Reveal } from './fx';
 import { useCopy } from './tradeCopy';
-import { CoinImage, Ext, ErrorNote, FeeDest, PrelaunchBanner, Row } from './ui';
+import { CoinImage, Ext, ErrorNote, FeeDest, Row } from './ui';
 
 type Unit = 'zec' | 'sprout' | null;
 
@@ -82,12 +82,7 @@ export function StatsView() {
 
   return (
     <div className="space-y-14 sm:space-y-20">
-      {(s && !s.configured) || (s && !s.ok) ? (
-        <div className="space-y-4">
-          {s && !s.configured && <PrelaunchBanner />}
-          {s && !s.ok && <ErrorNote onRetry={() => q.refetch()} detail={s.error} />}
-        </div>
-      ) : null}
+      {s && !s.ok ? <ErrorNote onRetry={() => q.refetch()} detail={s.error} /> : null}
 
       {/* 01 — network headline numbers */}
       <section>

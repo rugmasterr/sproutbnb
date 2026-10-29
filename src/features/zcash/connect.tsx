@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useGate } from '@/components/ComingSoon';
 import { Modal } from '@/components/ui';
 import { ZecGlyph } from '@/components/brand';
 import { explorerAddr } from '@/lib/config';
@@ -16,6 +17,7 @@ import { SignInPanel, type SignInTab } from './signin';
 export function ConnectButton() {
   const { t } = useZT();
   const acct = useSproutAccount();
+  const gate = useGate();
   const [modal, setModal] = useState<SignInTab | null>(null);
   const [menu, setMenu] = useState(false);
   const [deposit, setDeposit] = useState(false);
@@ -40,11 +42,11 @@ export function ConnectButton() {
     return (
       <>
         <div className="flex items-center gap-1.5">
-          <button type="button" className="btn bg-gold py-1.5 text-ink hover:brightness-105" onClick={() => setModal('zcash')}>
+          <button type="button" className="btn bg-gold py-1.5 text-ink hover:brightness-105" data-action="start-zcash" onClick={gate(() => setModal('zcash'))}>
             <ZecGlyph size={14} />
             <span className="whitespace-nowrap">{t('cb.start')}</span>
           </button>
-          <button type="button" className="btn-ghost hidden py-1.5 xl:inline-flex" onClick={() => setModal('bnb')}>
+          <button type="button" className="btn-ghost hidden py-1.5 xl:inline-flex" data-action="connect-bnb" onClick={gate(() => setModal('bnb'))}>
             {t('cb.bnb')}
           </button>
         </div>
@@ -97,7 +99,7 @@ export function ConnectButton() {
             </button>
           </div>
           <div className="grid grid-cols-2 gap-1.5 px-1 pb-2">
-            <button type="button" className="btn bg-gold py-1.5 text-ink hover:brightness-105" onClick={() => { setMenu(false); setDeposit(true); }}>
+            <button type="button" className="btn bg-gold py-1.5 text-ink hover:brightness-105" onClick={gate(() => { setMenu(false); setDeposit(true); })}>
               {t('cb.deposit')}
             </button>
             <Link href="/zec#out" className="btn-ghost py-1.5" onClick={() => setMenu(false)}>

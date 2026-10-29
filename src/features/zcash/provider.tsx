@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { getAddress, isAddress, type Address, type Hex } from 'viem';
 import { useAccount, useBalance, useDisconnect, usePublicClient, useSendTransaction, useSwitchChain } from 'wagmi';
+import { ACTIONS_ENABLED } from '@/lib/config';
 import { targetChain } from '@/lib/wagmi';
 import { isValidZcashAddress } from './address';
 import { env } from './constants';
@@ -173,8 +174,9 @@ export function ZcashProvider({ children }: { children: React.ReactNode }) {
     setReady(true);
   }, []);
 
-  const signedIn = record && !record.signedOut ? record : null;
-  const kind: AccountKind = signedIn ? 'passkey' : wag.isConnected && wag.address ? 'evm' : 'none';
+  // With actions off (NEXT_PUBLIC_ACTIONS_ENABLED), no stored session is resumed: everyone browses signed out.
+  const signedIn = ACTIONS_ENABLED && record && !record.signedOut ? record : null;
+  const kind: AccountKind = signedIn ? 'passkey' : ACTIONS_ENABLED && wag.isConnected && wag.address ? 'evm' : 'none';
   const address = (signedIn?.address ?? (kind === 'evm' ? wag.address : undefined)) as `0x${string}` | undefined;
 
   useEffect(() => {
@@ -217,6 +219,7 @@ export function ZcashProvider({ children }: { children: React.ReactNode }) {
 
   const createPasskeyAccount = useCallback(
     async (opts: { zcashRefundAddress: string; zcashPayoutAddress?: string }) => {
+      if (!ACTIONS_ENABLED) throw new AccountError('coming-soon');
       if (!ACCOUNTS_LIVE) throw new AccountError('accounts-not-live');
       const refund = opts.zcashRefundAddress.trim();
       const payout = (opts.zcashPayoutAddress || '').trim();
@@ -245,6 +248,7 @@ export function ZcashProvider({ children }: { children: React.ReactNode }) {
 
   const loginPasskey = useCallback(
     async (opts?: { discover?: boolean }) => {
+      if (!ACTIONS_ENABLED) throw new AccountError('coming-soon');
       if (!ACCOUNTS_LIVE) throw new AccountError('accounts-not-live');
       const known = loadPasskey();
       if (known && !opts?.discover) {
@@ -328,6 +332,7 @@ export function ZcashProvider({ children }: { children: React.ReactNode }) {
           .then((rc) => rc.status === 'success' && linkCashOuts(cs, h))
           .catch(() => {});
       };
+      if (!ACTIONS_ENABLED) throw new AccountError('coming-soon');
       if (!calls.length) throw new AccountError('empty-batch');
       if (busy.current) throw new AccountError('busy');
       busy.current = true;
@@ -433,7 +438,7 @@ export function ZcashProvider({ children }: { children: React.ReactNode }) {
       accountsLive: ACCOUNTS_LIVE,
       relayerLive: Boolean(RELAYER_URL),
       passkey: signedIn,
-      knownPasskey: record && record.signedOut ? record : null,
+      knownPasskey: ACTIONS_ENABLED && record && record.signedOut ? record : null,
       setZcashAddresses,
       refetchBalance: () => void bal.refetch(),
     }),

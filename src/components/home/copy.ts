@@ -20,11 +20,11 @@ export const C = {
     mainnet: { en: 'BNB Chain mainnet', zh: 'BNB 链主网' },
     testnet: { en: 'BNB Chain testnet', zh: 'BNB 链测试网' },
     flap: { en: 'Built on Flap', zh: '基于 Flap' },
-    live: { en: 'Contracts live. Launches and trades settle in ZEC.', zh: '合约已上线，发币与交易均以 ZEC 结算。' },
-    pre: { en: 'Pre-launch. Contracts are written, not yet deployed.', zh: '上线前：合约已编写，尚未部署。' },
+    liveTag: { en: 'Live', zh: '运行中' },
+    live: { en: 'Contracts verified on BNB Chain. Launches and trades settle in ZEC.', zh: '合约已在 BNB 链上验证，发币与交易均以 ZEC 结算。' },
     terminal: { en: 'Open terminal', zh: '打开终端' },
     stages: { en: 'Stages', zh: '成长阶段' },
-    ca: { en: 'Contract at launch', zh: '合约即将公布' },
+    contract: { en: 'Sprout contract', zh: '春笋合约' },
     zecT: { en: 'Start from Zcash', zh: '从 Zcash 出发' },
     zecB: {
       en: 'Send ZEC from any Zcash wallet. It lands on BNB Chain in about ten minutes.',
@@ -46,7 +46,7 @@ export const C = {
     chain: { en: 'Chain', zh: '链' },
     bridge: { en: 'Bridge', zh: '跨链' },
     cashout: { en: 'Cash out', zh: '提现' },
-    shielded: { en: 'Shielded ZEC', zh: '屏蔽 ZEC' },
+    shielded: { en: 'Native ZEC', zh: '原生 ZEC' },
     termFee: { en: 'Terminal fee', zh: '终端费' },
     stages: { en: 'Stages', zh: '阶段' },
   },
@@ -107,7 +107,6 @@ export const C = {
     ],
     choices: { en: 'Deployer’s choice · 0.80%', zh: '部署者自选 · 0.80%' },
     choicesSub: { en: 'Chosen at launch. Pick one:', zh: '发币时选定，五选一：' },
-    zfLocked: { en: 'Opens when address is set', zh: '地址设定后开放' },
     zfOpen: { en: 'Address set', zh: '地址已设定' },
     permanent: { en: 'Permanent', zh: '永久' },
   },
@@ -115,7 +114,7 @@ export const C = {
     kicker: { en: 'Protocol', zh: '协议' },
     t1: { en: 'Read from the chain.', zh: '全部读自链上，' },
     t2: { en: 'Never typed in.', zh: '没有一个是手填的。' },
-    pre: { en: 'Counters start at the first planted coin.', zh: '第一枚币种下后开始计数。' },
+    pre: { en: 'Read live from BNB Chain', zh: '实时读取自 BNB 链' },
     cards: [
       {
         tag: 'WebAuthn · P-256',
@@ -155,7 +154,7 @@ export const C = {
     kicker: { en: 'Market', zh: '市场' },
     t1: { en: 'Fresh shoots.', zh: '新笋破土，' },
     t2: { en: 'Rising groves.', zh: '竹林成荫。' },
-    emptyT: { en: 'The first shoot hasn’t broken ground.', zh: '第一棵春笋还没破土。' },
+    emptyT: { en: 'Every coin, straight from the chain.', zh: '每一枚币，都直接读自链上。' },
   },
   road: {
     kicker: { en: 'Roadmap', zh: '路线图' },
@@ -164,9 +163,9 @@ export const C = {
     full: { en: 'Full roadmap', zh: '完整路线图' },
     w: [
       { en: 'Built', zh: '已完成' },
+      { en: 'Live', zh: '已上线' },
       { en: 'Now', zh: '现在' },
       { en: 'Next', zh: '下一步' },
-      { en: 'Then', zh: '然后' },
       { en: 'Later', zh: '之后' },
     ],
     i: [
@@ -180,7 +179,7 @@ export const C = {
   cta: {
     kicker: { en: 'Launch', zh: '发币' },
     t1: { en: 'Launch your shoot.', zh: '种下你的春笋。' },
-    t2: { en: 'The grove is waiting.', zh: '雨后春笋，就等这一棵。' },
+    t2: { en: 'Grow the grove.', zh: '雨后春笋，从这一棵开始。' },
     steps: [
       { en: 'Name it and add a picture', zh: '起个名字，传张图' },
       { en: 'Choose where the 0.80% goes', zh: '选好 0.80% 的去向' },

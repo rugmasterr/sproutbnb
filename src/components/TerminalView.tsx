@@ -15,7 +15,7 @@ import { PriceZec } from './CoinView';
 import { BambooBar, CopyChip, Kicker, StatusDot, StatusLine } from './fx';
 import { TradePanel } from './TradePanel';
 import { useCopy } from './tradeCopy';
-import { CoinImage, Empty, ErrorNote, Ext, Notice, PrelaunchBanner, StageBadge } from './ui';
+import { CoinImage, Empty, ErrorNote, Ext, Notice, StageBadge } from './ui';
 
 const STATUS_NAME: Record<number, string> = { 0: 'Invalid', 1: 'Tradable', 2: 'InDuel', 3: 'Killed', 4: 'DEX', 5: 'Staged' };
 
@@ -134,7 +134,7 @@ export function TerminalView() {
 
   const g = guardOf(d);
   const disabledReason = !TERMINAL_LIVE
-    ? t('pre.terminalDisabled')
+    ? t('term.offline')
     : g
       ? t('term.blocked', { why: g === 'tax' ? t('term.whyTax') : t('term.whyInvalid') })
       : null;
@@ -143,7 +143,6 @@ export function TerminalView() {
 
   return (
     <div className="space-y-6">
-      {!TERMINAL_LIVE && <PrelaunchBanner text={t('pre.terminalDisabled')} />}
       <form onSubmit={load} className="box relative">
         <div aria-hidden className="lines-bg fade-mask-b pointer-events-none absolute inset-0 opacity-60" />
         <div className="box-h relative">

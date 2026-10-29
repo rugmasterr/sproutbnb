@@ -7,12 +7,13 @@ import { ZecAmount, useSproutAccount, useZec } from '@/features/zcash';
 import { useI18n } from '@/i18n/I18nProvider';
 import type { Key } from '@/i18n/dict';
 import { vaultAbi } from '@/lib/abi/sprout';
-import { explorerAddr, explorerToken, explorerTx, flapTokenUrl, pancakeUrl } from '@/lib/config';
+import { ACTIONS_ENABLED, explorerAddr, explorerToken, explorerTx, flapTokenUrl, pancakeUrl } from '@/lib/config';
 import { big, fmtAmt, fmtNum, fmtPct, fmtPrice, shortAddr, timeAgo, weiToNum } from '@/lib/format';
 import { errText } from '@/lib/trade';
 import type { TokenResponse, Trade, VaultInfo } from '@/lib/types';
 import { useTrades, useToken } from '@/lib/useApi';
 import { TradesFeed } from './coins';
+import { useGate } from './ComingSoon';
 import { BambooBar, CopyChip, Kicker, NodeRing, StatusLine } from './fx';
 import { TradePanel } from './TradePanel';
 import { useCopy } from './tradeCopy';
@@ -33,6 +34,7 @@ export function PriceZec({ priceWei }: { priceWei: string | undefined }) {
 function VaultPanel({ vault }: { vault: VaultInfo }) {
   const { t } = useI18n();
   const acct = useSproutAccount();
+  const gate = useGate();
   const [st, setSt] = useState<{ k: 'idle' | 'busy' } | { k: 'done'; tx: string } | { k: 'error'; msg: string }>({ k: 'idle' });
   const pots = big(vault.lpPotWei) + big(vault.rootPotWei) + big(vault.opsPotWei) + big(vault.payeePotWei);
   const flush = async () => {
@@ -107,7 +109,13 @@ function VaultPanel({ vault }: { vault: VaultInfo }) {
           </div>
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          <button type="button" className="btn-ghost btn-sm" disabled={acct.kind === 'none' || st.k === 'busy' || pots === 0n} onClick={flush}>
+          <button
+            type="button"
+            data-action="flush"
+            className="btn-ghost btn-sm"
+            disabled={ACTIONS_ENABLED && (acct.kind === 'none' || st.k === 'busy' || pots === 0n)}
+            onClick={gate(flush)}
+          >
             {st.k === 'busy' ? t('trade.working') : t('vault.flush')}
           </button>
           <span className="min-w-0 flex-1 text-[11px] leading-relaxed text-faint">{t('vault.flushHint')}</span>

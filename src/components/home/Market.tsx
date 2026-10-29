@@ -1,13 +1,13 @@
 'use client';
 
-import Link from 'next/link';
 import { useI18n } from '@/i18n/I18nProvider';
 import { ABOUT_TO_GRADUATE } from '@/lib/stage';
 import type { Coin, CoinsResponse, Trade } from '@/lib/types';
 import { Stalks } from '../brand';
 import { CoinCard, CoinRow, CoinSkeletons, Explore, TradesFeed } from '../coins';
 import { Kicker, Reveal, Scramble } from '../fx';
-import { ErrorNote, PrelaunchBanner } from '../ui';
+import { ActionLink } from '../ComingSoon';
+import { ErrorNote } from '../ui';
 import { C, useL } from './copy';
 import { TwoLine } from './TwoLine';
 
@@ -62,29 +62,33 @@ export function Market({
               <TwoLine a={L(C.coins.t1)} b={L(C.coins.t2)} />
             </h2>
           </div>
-          <Link href="/launch" className="btn-ghost">
+          <ActionLink href="/launch" className="btn-ghost">
             {t('home.ctaLaunch')} <span className="arr">→</span>
-          </Link>
+          </ActionLink>
         </Reveal>
 
-        <div className="mt-10 space-y-4">
-          {data && !data.configured && <PrelaunchBanner />}
-          {data && !data.ok && <ErrorNote onRetry={onRetry} detail={data.error} />}
-        </div>
+        {data && !data.ok && (
+          <div className="mt-10">
+            <ErrorNote onRetry={onRetry} detail={data.error} />
+          </div>
+        )}
 
         {empty ? (
           <Reveal className="mt-6">
             <div className="card relative grid items-center gap-8 overflow-hidden p-6 sm:p-10 md:grid-cols-[minmax(0,1fr)_auto]">
               <div aria-hidden className="grid-bg fade-mask-b pointer-events-none absolute inset-0 opacity-60" />
               <div className="relative min-w-0">
-                <span className="mono-label">{t('ex.all')} · 00</span>
+                <span className="kicker">
+                  <span aria-hidden className="status-dot" data-pulse="true" style={{ ['--dot' as string]: 'rgb(var(--bamboo))' }} />
+                  {L(C.band.live)} · BNB Chain
+                </span>
                 <h3 className="h3 mt-3">{L(C.coins.emptyT)}</h3>
                 <p className="mt-2 max-w-xl text-sm text-muted">{t('home.plantedEmpty')}</p>
                 <div className="mt-5 grid max-w-xl gap-3 sm:grid-cols-3">
                   {(['grove', 'graduating', 'trades'] as const).map((k) => (
-                    <div key={k} className="rounded-xl border border-dashed border-line-2 px-3 py-2.5">
+                    <div key={k} className="rounded-xl border border-line-2 bg-ink-2/70 px-3 py-2.5">
                       <div className="mono-label">{t(`home.${k}`)}</div>
-                      <div className="num mt-1 font-mono text-sm text-faint">00</div>
+                      <div className="num mt-1 font-mono text-sm text-muted">0</div>
                     </div>
                   ))}
                 </div>

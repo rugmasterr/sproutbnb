@@ -297,7 +297,7 @@ const docsEn: PageDoc = {
         {
           p: [
             "[Nodes](/nodes) (竹节) is a public ledger built only from on-chain events: coins planted, vault flushes, ZEC payouts to payees and holders, bridges to Zcash (with the 1Click deposit address and quote reference), Grove liquidity runs and Rootstock burns. Every row links to its transaction, so anyone can check it.",
-            "Aggregate numbers are on [Stats](/stats). Before Sprout's contracts are deployed these pages show an empty, pre-launch state — never sample data.",
+            "Aggregate numbers are on [Stats](/stats). Everything on these pages is read from BNB Chain — never sample data.",
           ],
         },
       ],
@@ -309,7 +309,7 @@ const docsEn: PageDoc = {
         {
           p: [
             "$SPROUT is the platform token. Rootstock buys and burns it, and the Grove pairs it with ZEC.",
-            "**$SPROUT has not launched yet.** Its contract address will be published on this site once it is set (once only) in Sprout's Roots contract. Treat any token claiming to be $SPROUT before then as fake.",
+            "**The official $SPROUT contract address is published only on this site,** after it is set (once only) in Sprout's Roots contract. Treat any token claiming to be $SPROUT that is not listed here as fake.",
           ],
         },
         { note: "Nothing here is a promise of price, returns or utility beyond what is described on this page." },
@@ -388,7 +388,7 @@ const docsEn: PageDoc = {
         {
           ul: [
             "Most memecoins go to zero. Only use money you can afford to lose.",
-            "Sprout's contracts are **not audited** at launch.",
+            "Sprout's contracts are **not audited**.",
             "Bridging relies on NEAR Intents; BEP-20 ZEC relies on Binance's custody.",
             "Lose your passkey, lose your Sprout Account.",
             "Refunds go to a transparent address, and everything on BNB Chain is public.",
@@ -684,7 +684,7 @@ const docsZh: PageDoc = {
         {
           p: [
             "[竹节](/nodes) 是一本完全由链上事件构成的公开账本：代币种下、金库结算、向收款人和持币者发放的 ZEC、跨链到 Zcash 的转账（含 1Click 充值地址和报价编号）、竹林注入和竹根销毁。每一行都链接到对应交易，任何人都可以核查。",
-            "汇总数据见 [数据](/stats)。在春笋合约部署之前，这些页面显示空白的上线前状态 —— 绝不展示示例数据。",
+            "汇总数据见 [数据](/stats)。这些页面上的一切都读取自 BNB 链 —— 绝不展示示例数据。",
           ],
         },
       ],
@@ -696,7 +696,7 @@ const docsZh: PageDoc = {
         {
           p: [
             "$SPROUT 是平台代币。竹根回购并销毁它，竹林将它与 ZEC 配对。",
-            "**$SPROUT 尚未发行。** 合约地址在春笋的 Roots 合约中设定（仅可设定一次）后，会在本站公布。在此之前任何自称 $SPROUT 的代币都应视为假币。",
+            "**$SPROUT 的官方合约地址只在本站公布，** 且须先在春笋的 Roots 合约中设定（仅可设定一次）。任何未在本站列出、却自称 $SPROUT 的代币都应视为假币。",
           ],
         },
         { note: "本页内容不构成对价格、收益或任何本页未描述用途的承诺。" },
@@ -771,7 +771,7 @@ const docsZh: PageDoc = {
         {
           ul: [
             "大多数迷因币最终归零。只投入你能承受损失的资金。",
-            "春笋合约上线时 **未经审计**。",
+            "春笋合约 **未经审计**。",
             "跨链依赖 NEAR Intents；BEP-20 ZEC 依赖币安的托管。",
             "丢失通行密钥 = 丢失 Sprout 账户。",
             "退款退回透明地址，BNB 链上的一切都是公开的。",
@@ -883,7 +883,7 @@ const aboutEn: PageDoc = {
       blocks: [
         {
           p: [
-            "Sprout's contracts, site and services are written but **not yet deployed or audited**, and $SPROUT has not launched. See the [roadmap](/roadmap) for what is and isn't done.",
+            "Sprout's contracts are deployed on BNB Chain mainnet with sources verified on Sourcify. They are **not audited**. See the [roadmap](/roadmap) for what is done and what comes next.",
           ],
         },
         {
@@ -960,7 +960,7 @@ const aboutZh: PageDoc = {
       id: "status",
       heading: "现状与独立性",
       blocks: [
-        { p: ["春笋的合约、网站和后台服务已编写完成，但 **尚未部署，也未经审计**；$SPROUT 尚未发行。已完成和未完成的事项见 [路线图](/roadmap)。"] },
+        { p: ["春笋的合约已部署到 BNB 链主网，源码已在 Sourcify 验证，但 **未经审计**。已完成的事项与下一步计划见 [路线图](/roadmap)。"] },
         { note: "春笋是独立项目，与 Zcash 基金会、Electric Coin Co.、Flap、币安、BNB Chain、PancakeSwap 及 NEAR 均无关联。" },
       ],
     },
@@ -1042,7 +1042,7 @@ const guideEn: PageDoc = {
         {
           ul: [
             "Most memecoins go to zero. Use only what you can afford to lose.",
-            "Sprout's contracts are not audited at launch.",
+            "Sprout's contracts are not audited.",
             "Never send to a deposit address twice, and never after its deadline.",
             "Sprout staff will never ask for your passkey, seed phrase or viewing key.",
           ],
@@ -1124,7 +1124,7 @@ const guideZh: PageDoc = {
         {
           ul: [
             "大多数迷因币最终归零，只投入你能承受损失的资金。",
-            "春笋合约上线时未经审计。",
+            "春笋合约未经审计。",
             "同一个充值地址不要转账两次，也不要在截止时间后转账。",
             "春笋团队绝不会索要你的通行密钥、助记词或查看密钥。",
           ],
@@ -1145,28 +1145,26 @@ const roadmapEn: PageDoc = {
   sections: [
     {
       id: "now",
-      heading: "Now: built, not live",
+      heading: "Now: live on BNB Chain",
       blocks: [
         {
           ul: [
-            "**Written:** core contracts (vault factory, vaults, payouts, Roots, Terminal), passkey account contracts, this site, the keeper, the relayer and the shield forwarder.",
-            "**Not deployed:** none of Sprout's contracts are on BNB Chain mainnet yet. The site shows a pre-launch state until they are.",
+            "**Deployed:** core contracts (vault factory, vaults, payouts, Roots, Terminal) and the passkey account factory are on BNB Chain mainnet, with sources verified on Sourcify.",
+            "**Running:** this site, the keeper and the relayer.",
             "**Not audited:** no audit of Sprout's contracts has taken place.",
-            "**Domain:** sproutbnb.cash is not connected yet.",
           ],
         },
       ],
     },
     {
       id: "launch",
-      heading: "Next: launch",
+      heading: "Next: $SPROUT and the Grove",
       blocks: [
         {
           ul: [
-            "Deploy to BNB Chain testnet, then mainnet, and publish every contract address.",
             "Launch **$SPROUT** and set it in Roots (a one-time setting).",
             "First Grove liquidity runs create the $SPROUT/ZEC pool; first Rootstock burns.",
-            "Bring the keeper, relayer and forwarder online, with their status public.",
+            "Bring the shield forwarder online, and publish the status of every service.",
           ],
         },
       ],
@@ -1208,28 +1206,26 @@ const roadmapZh: PageDoc = {
   sections: [
     {
       id: "now",
-      heading: "现在：已编写，未上线",
+      heading: "现在：已在 BNB 链运行",
       blocks: [
         {
           ul: [
-            "**已编写：** 核心合约（金库工厂、金库、分成发放、Roots、交易终端）、通行密钥账户合约、本网站、守护程序、中继器和屏蔽转发器。",
-            "**未部署：** 春笋的合约尚未部署到 BNB 链主网。部署前网站显示上线前状态。",
+            "**已部署：** 核心合约（金库工厂、金库、分成发放、Roots、交易终端）与通行密钥账户工厂已在 BNB 链主网上线，源码已在 Sourcify 验证。",
+            "**运行中：** 本网站、守护程序与中继器。",
             "**未审计：** 春笋合约尚未进行任何审计。",
-            "**域名：** sproutbnb.cash 尚未接入。",
           ],
         },
       ],
     },
     {
       id: "launch",
-      heading: "下一步：上线",
+      heading: "下一步：$SPROUT 与竹林",
       blocks: [
         {
           ul: [
-            "先部署到 BNB 链测试网，再部署到主网，并公布所有合约地址。",
             "发行 **$SPROUT**，并在 Roots 中设定（仅可设定一次）。",
             "首次竹林注入建立 $SPROUT/ZEC 池；首次竹根销毁。",
-            "守护程序、中继器和转发器上线，运行状态公开。",
+            "屏蔽转发器上线，并公开每项服务的运行状态。",
           ],
         },
       ],
@@ -1302,7 +1298,7 @@ const riskEn: PageDoc = {
       blocks: [
         {
           ul: [
-            "Sprout's contracts are **unaudited at launch**. They may contain bugs that lose funds.",
+            "Sprout's contracts are **unaudited**. They may contain bugs that lose funds.",
             "Sprout coins depend on Flap's contracts. Flap's Guardian can upgrade all Sprout vaults through their beacon.",
             "Passkey accounts rely on BNB Chain's P-256 signature precompile and on your device's passkey implementation.",
           ],
@@ -1420,7 +1416,7 @@ const riskZh: PageDoc = {
       blocks: [
         {
           ul: [
-            "春笋合约上线时 **未经审计**，可能存在导致资金损失的漏洞。",
+            "春笋合约 **未经审计**，可能存在导致资金损失的漏洞。",
             "春笋代币依赖 Flap 的合约。Flap Guardian 可以通过信标升级所有春笋金库。",
             "通行密钥账户依赖 BNB 链的 P-256 签名预编译合约，以及你设备上的通行密钥实现。",
           ],
@@ -1601,7 +1597,7 @@ const termsEn: PageDoc = {
       blocks: [
         {
           p: [
-            "Sprout is provided “as is” and “as available”, without warranties of any kind. Its contracts are unaudited at launch. Nothing on Sprout is financial, investment, legal or tax advice. Read the [risks](/risk).",
+            "Sprout is provided “as is” and “as available”, without warranties of any kind. Its contracts are unaudited. Nothing on Sprout is financial, investment, legal or tax advice. Read the [risks](/risk).",
           ],
         },
       ],
@@ -1717,7 +1713,7 @@ const termsZh: PageDoc = {
       blocks: [
         {
           p: [
-            "春笋按「现状」和「现有」提供，不作任何形式的担保。其合约上线时未经审计。春笋上的任何内容都不构成金融、投资、法律或税务建议。请阅读 [风险](/risk)。",
+            "春笋按「现状」和「现有」提供，不作任何形式的担保。其合约未经审计。春笋上的任何内容都不构成金融、投资、法律或税务建议。请阅读 [风险](/risk)。",
           ],
         },
       ],

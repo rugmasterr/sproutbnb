@@ -93,15 +93,13 @@ function Choices() {
           const zf = m === 4;
           const locked = zf && !zfSet;
           return (
-            <li key={m} className={`grid grid-cols-[2rem_minmax(0,1fr)] gap-3 py-3.5 ${locked ? 'opacity-70' : ''}`}>
+            <li key={m} className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 py-3.5">
               <span className="pt-0.5 font-mono text-xs text-faint">{String(m + 1).padStart(2, '0')}</span>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-semibold tracking-[-0.01em]">{t(`mode.${m}` as Key)}</span>
                   {(m === 2 || m === 3 || m === 4) && <ZecGlyph size={13} />}
-                  {zf && (
-                    <span className={locked ? 'tag-muted' : 'tag-green'}>{L(locked ? C.fee.zfLocked : C.fee.zfOpen)}</span>
-                  )}
+                  {zf && !locked && <span className="tag-green">{L(C.fee.zfOpen)}</span>}
                   {zf && <span className="tag-muted">{L(C.fee.permanent)}</span>}
                 </div>
                 <p className="mt-1 text-sm text-muted">{t(`mode.${m}d` as Key)}</p>

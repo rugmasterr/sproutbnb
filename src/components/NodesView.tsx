@@ -10,7 +10,7 @@ import type { LedgerEntry, LedgerKind } from '@/lib/types';
 import { useLedger } from '@/lib/useApi';
 import { CopyChip, Kicker, NodeRing, StatusLine } from './fx';
 import { useCopy } from './tradeCopy';
-import { Empty, ErrorNote, PrelaunchBanner, ZecValue } from './ui';
+import { Empty, ErrorNote, ZecValue } from './ui';
 
 const KINDS: LedgerKind[] = ['Flushed', 'Deposited', 'BurnRun', 'LiquidityRun', 'Settled', 'BridgedOut', 'CashOut'];
 const DOT: Record<LedgerKind, string> = {
@@ -112,7 +112,6 @@ export function NodesView() {
 
   return (
     <div className="space-y-6">
-      {d && !d.configured && <PrelaunchBanner />}
       {d && !d.ok && <ErrorNote onRetry={() => q.refetch()} detail={d.error} />}
 
       <div className="flex flex-wrap items-end justify-between gap-4">

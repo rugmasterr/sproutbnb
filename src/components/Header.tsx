@@ -7,6 +7,7 @@ import { ConnectButton } from '@/features/zcash';
 import { useI18n } from '@/i18n/I18nProvider';
 import type { Key } from '@/i18n/dict';
 import { Logo } from './brand';
+import { ActionLink } from './ComingSoon';
 
 const NAV: { href: string; k: Key }[] = [
   { href: '/', k: 'nav.coins' },
@@ -107,12 +108,12 @@ export function Header() {
           })}
         </nav>
         <div className="ml-auto flex items-center gap-2">
-          <Link href="/launch" className="btn-ghost btn-sm hidden md:inline-flex">
+          <ActionLink href="/launch" className="btn-ghost btn-sm hidden md:inline-flex">
             {t('nav.launch')}
             <span className="arr text-accent" aria-hidden>
               →
             </span>
-          </Link>
+          </ActionLink>
           <div className="hidden sm:block">
             <ConnectButton />
           </div>
@@ -166,12 +167,12 @@ export function Header() {
               </Link>
             ))}
             <div className="mt-4 flex flex-wrap items-center gap-2 px-1 pb-2">
-              <Link href="/launch" className="btn-primary">
+              <ActionLink href="/launch" className="btn-primary">
                 {t('nav.launch')}
                 <span className="arr" aria-hidden>
                   →
                 </span>
-              </Link>
+              </ActionLink>
               <div className="sm:hidden">
                 <ConnectButton />
               </div>

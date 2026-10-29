@@ -17,7 +17,7 @@ import {
 } from '@/features/zcash';
 import { useI18n } from '@/i18n/I18nProvider';
 import { erc20Abi } from '@/lib/abi/erc20';
-import { CHAIN_ID, explorerTx } from '@/lib/config';
+import { ACTIONS_ENABLED, CHAIN_ID, explorerTx } from '@/lib/config';
 import { fmtAmt, weiToNum } from '@/lib/format';
 import {
   afterTerminalFee,
@@ -34,6 +34,7 @@ import {
   terminalSellCalls,
 } from '@/lib/trade';
 import { ZecGlyph } from './brand';
+import { useComingSoon } from './ComingSoon';
 import { Notice, Row } from './ui';
 
 type Side = 'buy' | 'sell';
@@ -138,6 +139,7 @@ export function TradePanel({
   }
 
   const blocked = Boolean(disabledReason);
+  const notify = useComingSoon();
 
   return (
     <>
@@ -278,6 +280,16 @@ export function TradePanel({
         <div className="mt-4">
           {blocked ? (
             <Notice tone="warn">{disabledReason}</Notice>
+          ) : !ACTIONS_ENABLED ? (
+            <button
+              type="button"
+              data-action={`trade-${side}`}
+              className={`btn-lg w-full ${side === 'buy' ? 'btn-primary' : 'btn-seal'}`}
+              onClick={notify}
+            >
+              {side === 'buy' ? t('trade.buy') : t('trade.sell')} {symbol ? `$${symbol}` : ''}
+              <span className="arr">→</span>
+            </button>
           ) : !connected ? (
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-dashed border-line-2 px-3.5 py-3">
               <span className="text-sm text-muted">{t('ui.connectFirst')}</span>
@@ -298,7 +310,7 @@ export function TradePanel({
             <button
               type="button"
               className="mt-2 w-full text-center font-mono text-[11px] uppercase tracking-[0.08em] text-accent transition hover:text-accent-hi"
-              onClick={() => setDepositOpen(true)}
+              onClick={ACTIONS_ENABLED ? () => setDepositOpen(true) : notify}
             >
               + {t('trade.deposit')}
             </button>

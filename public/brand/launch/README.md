@@ -1,13 +1,19 @@
 # Sprout 春笋: $SPROUT launch assets
 
-Dark, techy, BNB-yellow launch kit. The bamboo-shoot mark is a refined redraw of `../sprout-mark.svg`
-with the same three stacked sheaths, pointed tip, leaf and ground arc. The sheaths are BNB yellow
-(#F0B90B / #FCD535 / #C99400), the leaf and ground are bamboo green (#2EBD6B / #7CE3A0), and the ink
-background is #07080a.
+Clean pixel-art launch kit. The mark is a bamboo shoot (春笋) drawn on a 16×18 pixel grid. A slender
+tip sits above three sheaths, which are separated by chevron node lines (one-cell gaps). It uses two
+flat tones only: BNB yellow `#F0B90B` on the right half and a lighter `#FCD535` on the left half. The
+field is pure black `#000`. There are no gradients, glows, rings or textures. Every PNG is laid out at
+its exact size with whole-pixel cells (34 px at 1000, 14 px at 400, 17 px at 512) and
+`shape-rendering="crispEdges"`, so the edges stay sharp.
+
+The grid is defined once in `brand/src/mark.mjs` (`GRID`). The same mark is used in
+`public/brand/sprout-mark.svg`, the site's `Mark` component (`src/components/brand.tsx`), the favicon
+(`src/app/icon.svg`), the apple icon and the OG/Twitter images (`src/lib/og.tsx`).
 
 | File | Size | Use |
 |---|---|---|
-| `pfp.svg` | 1000×1000 (vector) | Source for the PFP / token logo. Use it to re-export at any size. |
+| `pfp.svg` | 1000×1000 (vector) | Source for the PFP / token logo. |
 | `pfp-1000.png` | 1000×1000 | X / Telegram / Discord profile picture (hi-res upload). |
 | `pfp-400.png` | 400×400 | Profile picture at the platform-native size, and for listings and aggregators. |
 | `token-logo-512.png` | 512×512 | Token image for the Flap launch form, and for BscScan, DEX screeners and wallets. |
@@ -17,8 +23,12 @@ background is #07080a.
 | `banner-flap-1200x400.png` | 1200×400 | Wide token-page banner (Flap and other token pages). |
 | `banner-1920x1080.png` | 1920×1080 | Generic 16:9 hero for Telegram, announcement posts, the website hero and stream overlays. |
 
-All important PFP content sits inside the centre circle, so circular crops on X and Telegram lose
-only the outer tick ring.
+The whole mark sits inside the centre 70% circle, so circular crops on X and Telegram only remove
+black background.
+
+The banners use the same style: a black field, the pixel mark, Geist / Geist Mono and Noto Sans SC
+type, yellow as the only accent, and a minimal pixel bamboo row (`brand/src/grove.mjs`). They contain
+no stats, progress bars or "live" badges.
 
 ## Re-rendering
 
@@ -32,3 +42,7 @@ cd brand
 npm install
 npm run render        # set CHROME=<path to chrome.exe> if Chrome is not in the default location
 ```
+
+If you change `GRID`, also regenerate the path data inlined in `src/components/brand.tsx`,
+`src/lib/og.tsx`, `src/app/icon.svg` and `public/brand/sprout-mark.svg`. You can print it with
+`node -e "import('./src/mark.mjs').then(m => console.log(m.markPaths(1, 1, 0)))"`.

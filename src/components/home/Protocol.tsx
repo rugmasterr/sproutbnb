@@ -30,7 +30,6 @@ const ICONS = [
 
 export function Protocol({ stats, loading }: { stats?: StatsResponse; loading: boolean }) {
   const L = useL();
-  const pre = stats ? !stats.configured : false;
   return (
     <section className="section relative overflow-hidden border-t border-line">
       <div aria-hidden className="grid-bg fade-mask-b pointer-events-none absolute inset-0 opacity-50" />
@@ -44,11 +43,9 @@ export function Protocol({ stats, loading }: { stats?: StatsResponse; loading: b
               <TwoLine a={L(C.proto.t1)} b={L(C.proto.t2)} />
             </h2>
           </div>
-          {pre && (
-            <StatusLine tone="yellow" className="normal-case">
-              {L(C.proto.pre)}
-            </StatusLine>
-          )}
+          <StatusLine tone="green" className="normal-case">
+            {L(C.proto.pre)}
+          </StatusLine>
         </Reveal>
 
         <Reveal i={1} className="mt-10">

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useGate } from '@/components/ComingSoon';
 import { PageHead } from '@/components/ui';
 import { Mark, ZecGlyph } from '@/components/brand';
 import { CopyChip, NodeRing, StatusLine } from '@/components/fx';
@@ -26,6 +27,7 @@ export function AccountPage() {
   const { t } = useZT();
   const l = useL();
   const acct = useSproutAccount();
+  const gate = useGate();
   const [deposit, setDeposit] = useState(false);
 
   return (
@@ -96,7 +98,7 @@ export function AccountPage() {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <button type="button" className="btn-primary" onClick={() => setDeposit(true)}>
+                    <button type="button" className="btn-primary" onClick={gate(() => setDeposit(true))}>
                       <ZecGlyph size={14} /> {t('cb.deposit')}
                     </button>
                     <Link href="/zec#out" className="btn-ghost">

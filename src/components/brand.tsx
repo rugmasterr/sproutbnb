@@ -1,30 +1,20 @@
 import Link from 'next/link';
 
+// Pixel bamboo shoot on an 18x18 grid (source of truth: brand/src/mark.mjs GRID). Left half #FCD535, right half #F0B90B.
+const MARK_HI =
+  'M8 0h1v1h-1zM8 1h1v1h-1zM8 2h1v1h-1zM7 3h2v1h-2zM7 4h1v1h-1zM8 5h1v1h-1zM7 6h2v1h-2zM6 7h3v1h-3zM6 8h2v1h-2zM5 9h2v1h-2zM8 9h1v1h-1zM5 10h1v1h-1zM7 10h2v1h-2zM6 11h3v1h-3zM5 12h3v1h-3zM4 13h3v1h-3zM8 13h1v1h-1zM4 14h2v1h-2zM7 14h2v1h-2zM3 15h2v1h-2zM6 15h3v1h-3zM3 16h1v1h-1zM5 16h4v1h-4zM4 17h5v1h-5z';
+const MARK_BASE =
+  'M9 0h1v1h-1zM9 1h1v1h-1zM9 2h1v1h-1zM9 3h2v1h-2zM10 4h1v1h-1zM9 5h1v1h-1zM9 6h2v1h-2zM9 7h3v1h-3zM10 8h2v1h-2zM9 9h1v1h-1zM11 9h2v1h-2zM9 10h2v1h-2zM12 10h1v1h-1zM9 11h3v1h-3zM10 12h3v1h-3zM9 13h1v1h-1zM11 13h3v1h-3zM9 14h2v1h-2zM12 14h2v1h-2zM9 15h3v1h-3zM13 15h2v1h-2zM9 16h4v1h-4zM14 16h1v1h-1zM9 17h5v1h-5z';
+
 /**
- * The layered bamboo-shoot mark. `tone="bnb"` (default) is the dark-theme variant: green
- * sheaths with a BNB-yellow tip; `tone="brand"` is the original /brand/sprout-mark.svg colours.
+ * The Sprout pixel mark: a flat yellow bamboo shoot on a crisp 18x18 grid (transparent background).
+ * `tone` and `glow` are kept for API compatibility; every tone renders the same yellow pixel mark, flat.
  */
-export function Mark({ size = 32, className = '', tone = 'bnb', glow = false }: { size?: number; className?: string; tone?: 'bnb' | 'brand'; glow?: boolean }) {
-  const c =
-    tone === 'bnb'
-      ? { soil: '#3A3F46', l1: '#1F6B43', l2: '#2EBD6B', l3: '#F0B90B', leaf: '#FCD535', vein: '#07080A' }
-      : { soil: '#6B4F2A', l1: '#1F6B43', l2: '#2F8F57', l3: '#7CC36E', leaf: '#A8DC7A', vein: '#F4EEDC' };
+export function Mark({ size = 32, className = '' }: { size?: number; className?: string; tone?: 'bnb' | 'brand'; glow?: boolean }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 64 64"
-      fill="none"
-      aria-hidden
-      className={`shrink-0 ${className}`}
-      style={glow ? { filter: 'drop-shadow(0 0 10px rgba(240,185,11,.45))' } : undefined}
-    >
-      <path d="M10 56 Q32 50 54 56" stroke={c.soil} strokeWidth="3" strokeLinecap="round" />
-      <path d="M15 55 Q32 47 49 55 L43.5 37 Q32 32.5 20.5 37 Z" fill={c.l1} />
-      <path d="M20.5 38.5 Q32 33.5 43.5 38.5 L38.5 23 Q32 19.8 25.5 23 Z" fill={c.l2} />
-      <path d="M25.6 24.6 Q32 21.6 38.4 24.6 L32 8.5 Z" fill={c.l3} />
-      <path d="M32.6 12.4 Q41 3.5 51 7.2 Q44.5 14.6 33.6 13.6 Z" fill={c.leaf} />
-      <path d="M32 47.5 L32 38.2 M32 35 L32 25.5" stroke={c.vein} strokeOpacity=".35" strokeWidth="1.4" strokeLinecap="round" />
+    <svg width={size} height={size} viewBox="0 0 18 18" shapeRendering="crispEdges" aria-hidden className={`shrink-0 ${className}`}>
+      <path d={MARK_HI} fill="#FCD535" />
+      <path d={MARK_BASE} fill="#F0B90B" />
     </svg>
   );
 }

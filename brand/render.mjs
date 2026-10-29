@@ -18,10 +18,10 @@ const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'sprout-brand-'));
 const CHROME = process.env.CHROME || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 fs.mkdirSync(out, { recursive: true });
 
-const pfp = pfpSVG();
-fs.writeFileSync(path.join(out, 'pfp.svg'), pfp);
+fs.writeFileSync(path.join(out, 'pfp.svg'), pfpSVG(1000));
 
-const svgPage = (size) => `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:${size}px;height:${size}px;overflow:hidden;background:#07080a}svg{display:block;width:${size}px;height:${size}px}</style></head><body>${pfp}</body></html>`;
+// Each PNG gets its own SVG laid out at that exact size, so every pixel cell is a whole number of px.
+const svgPage = (size) => `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:${size}px;height:${size}px;overflow:hidden;background:#000}svg{display:block;width:${size}px;height:${size}px}</style></head><body>${pfpSVG(size)}</body></html>`;
 
 const pages = [
   { name: 'pfp-1000.png', W: 1000, H: 1000, html: svgPage(1000) },
@@ -39,7 +39,7 @@ const qa = [
     body{margin:0;width:1200px;height:520px;background:#0d0f12;color:#F5F3EC;font-family:'Geist Mono';display:flex;align-items:center;justify-content:center;gap:56px}
     figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,243,236,.55)}
     .c{border-radius:50%;display:block} .wrap{position:relative} .ring{position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 1px rgba(240,185,11,.6)}
-    .safe{position:absolute;left:50%;top:50%;width:72%;height:72%;transform:translate(-50%,-50%);border-radius:50%;border:1px dashed rgba(124,227,160,.7)}
+    .safe{position:absolute;left:50%;top:50%;width:72%;height:72%;transform:translate(-50%,-50%);border-radius:50%;border:1px dashed rgba(255,255,255,.45)}
     .row{display:flex;gap:28px;align-items:center} .x{background:#000;padding:18px;border-radius:14px;display:flex;gap:12px;align-items:center}
     .x b{font-family:'Geist';font-size:15px;color:#fff;text-transform:none;letter-spacing:0} .x s{text-decoration:none;color:#71767b;text-transform:none;letter-spacing:0;font-family:'Geist';font-size:14px}</style></head><body>
     <figure><div class="wrap"><img class="c" src="${img('pfp-1000.png')}" width="400" height="400"><div class="ring"></div><div class="safe"></div></div>circle crop 400 · dashed = 72% safe zone</figure>

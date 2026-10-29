@@ -1,19 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <defs>
-    <radialGradient id="g" cx="50%" cy="34%" r="60%">
-      <stop offset="0" stop-color="#F0B90B" stop-opacity=".28"/>
-      <stop offset="1" stop-color="#F0B90B" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="64" height="64" rx="14" fill="#07080A"/>
-  <rect width="64" height="64" rx="14" fill="url(#g)"/>
-  <rect x=".5" y=".5" width="63" height="63" rx="13.5" stroke="#FFFFFF" stroke-opacity=".12"/>
-  <g transform="translate(4 3) scale(0.875)">
-    <path d="M10 56 Q32 50 54 56" stroke="#3A3F46" stroke-width="3" stroke-linecap="round"/>
-    <path d="M15 55 Q32 47 49 55 L43.5 37 Q32 32.5 20.5 37 Z" fill="#1F6B43"/>
-    <path d="M20.5 38.5 Q32 33.5 43.5 38.5 L38.5 23 Q32 19.8 25.5 23 Z" fill="#2EBD6B"/>
-    <path d="M25.6 24.6 Q32 21.6 38.4 24.6 L32 8.5 Z" fill="#F0B90B"/>
-    <path d="M32.6 12.4 Q41 3.5 51 7.2 Q44.5 14.6 33.6 13.6 Z" fill="#FCD535"/>
-    <path d="M32 47.5 L32 38.2 M32 35 L32 25.5" stroke="#07080A" stroke-opacity=".35" stroke-width="1.4" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+  <rect width="20" height="20" rx="4" fill="#000000"/>
+  <g shape-rendering="crispEdges">
+    <path d="M9 1h1v1h-1zM9 2h1v1h-1zM9 3h1v1h-1zM8 4h2v1h-2zM8 5h1v1h-1zM9 6h1v1h-1zM8 7h2v1h-2zM7 8h3v1h-3zM7 9h2v1h-2zM6 10h2v1h-2zM9 10h1v1h-1zM6 11h1v1h-1zM8 11h2v1h-2zM7 12h3v1h-3zM6 13h3v1h-3zM5 14h3v1h-3zM9 14h1v1h-1zM5 15h2v1h-2zM8 15h2v1h-2zM4 16h2v1h-2zM7 16h3v1h-3zM4 17h1v1h-1zM6 17h4v1h-4zM5 18h5v1h-5z" fill="#FCD535"/>
+    <path d="M10 1h1v1h-1zM10 2h1v1h-1zM10 3h1v1h-1zM10 4h2v1h-2zM11 5h1v1h-1zM10 6h1v1h-1zM10 7h2v1h-2zM10 8h3v1h-3zM11 9h2v1h-2zM10 10h1v1h-1zM12 10h2v1h-2zM10 11h2v1h-2zM13 11h1v1h-1zM10 12h3v1h-3zM11 13h3v1h-3zM10 14h1v1h-1zM12 14h3v1h-3zM10 15h2v1h-2zM13 15h2v1h-2zM10 16h3v1h-3zM14 16h2v1h-2zM10 17h4v1h-4zM15 17h1v1h-1zM10 18h5v1h-5z" fill="#F0B90B"/>
   </g>
 </svg>

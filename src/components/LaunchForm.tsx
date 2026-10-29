@@ -15,15 +15,16 @@ import {
 import { useI18n } from '@/i18n/I18nProvider';
 import type { Key } from '@/i18n/dict';
 import { MODES, type Mode } from '@/lib/abi/sprout';
-import { CAN_LAUNCH, explorerTx, LAUNCH, ZEC_TOKEN } from '@/lib/config';
+import { ACTIONS_ENABLED, CAN_LAUNCH, explorerTx, LAUNCH, ZEC_TOKEN } from '@/lib/config';
 import { byteLen, fmtAmt, fmtNum } from '@/lib/format';
 import { buildLaunchCall, findSalt } from '@/lib/launch';
 import { errText } from '@/lib/trade';
 import { useSiteConfig } from '@/lib/useApi';
 import { ZecGlyph } from './brand';
+import { useComingSoon } from './ComingSoon';
 import { BambooBar, Kicker } from './fx';
 import { useCopy } from './tradeCopy';
-import { CoinImage, FeeDest, Notice, PrelaunchBanner, StageBadge } from './ui';
+import { CoinImage, FeeDest, Notice, StageBadge } from './ui';
 
 type Phase = { k: 'idle' } | { k: 'upload' } | { k: 'salt'; n: number } | { k: 'sign' } | { k: 'done'; tx: string; token: Address } | { k: 'error'; msg: string };
 
@@ -35,6 +36,7 @@ export function LaunchForm() {
   const acct = useSproutAccount();
   const { zecToBnbWei, zecUsd } = useZec();
   const cfg = useSiteConfig();
+  const notify = useComingSoon();
   const zfAddr = cfg.data?.zcashFoundationAddress ?? null;
 
   const [name, setName] = useState('');
@@ -92,6 +94,8 @@ export function LaunchForm() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    // Actions off: the full form stays usable to look at, but planting only shows the notice.
+    if (!ACTIONS_ENABLED) return notify();
     setTouched(true);
     if (errors.length || !connected || !CAN_LAUNCH || busy) return;
     abort.current?.abort();
@@ -133,7 +137,7 @@ export function LaunchForm() {
     }
   }
 
-  const disabled = !CAN_LAUNCH;
+  const disabled = ACTIONS_ENABLED && !CAN_LAUNCH;
 
   // Presentation only: how far along the launch pipeline we are (upload → …7777 search → sign → done).
   // A 4-hex-digit suffix takes ~65,536 tries on average, so the salt bar shows the chance it has been found by now.
@@ -145,7 +149,7 @@ export function LaunchForm() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
       <form onSubmit={submit} className="min-w-0 space-y-6" noValidate>
-        {disabled && <PrelaunchBanner text={t('pre.launchDisabled')} />}
+        {disabled && <Notice tone="warn">{t('launch.offline')}</Notice>}
         <fieldset disabled={disabled || busy} className="min-w-0 space-y-6 disabled:opacity-80">
           {/* 01 — coin details */}
           <section className="box">
@@ -266,7 +270,6 @@ export function LaunchForm() {
                   );
                 })}
               </div>
-              {!zfAddr && <Notice tone="warn">{t('launch.zfDisabled')}</Notice>}
               {mode === 4 && zfAddr && (
                 <Notice tone="ok">
                   <span className="break-all font-mono text-xs">{t('launch.zfOn', { addr: zfAddr })}</span>
@@ -361,13 +364,13 @@ export function LaunchForm() {
           </div>
         )}
 
-        {!connected && !disabled ? (
+        {ACTIONS_ENABLED && !connected && !disabled ? (
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-dashed border-line-2 bg-raised/60 p-4">
             <span className="text-sm text-muted">{t('launch.connect')}</span>
             <ConnectButton />
           </div>
         ) : (
-          <button type="submit" className="btn-primary btn-lg w-full" disabled={disabled || busy}>
+          <button type="submit" data-action="launch" className="btn-primary btn-lg w-full" disabled={disabled || busy}>
             {busy ? (phase.k === 'upload' ? t('launch.stepUpload') : phase.k === 'salt' ? t('launch.stepSalt', { n: fmtNum(phase.n) }) : t('launch.stepSign')) : t('launch.submit')}
             {!busy && <span className="arr">→</span>}
           </button>

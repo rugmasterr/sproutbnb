@@ -60,7 +60,7 @@ export const chain = CHAINS[CHAIN_ID];
 export const DEAD: Address = '0x000000000000000000000000000000000000dEaD';
 export const ZERO: Address = '0x0000000000000000000000000000000000000000';
 
-/** Sprout's own contracts — unknown until deployed. Undefined => honest pre-launch state. */
+/** Sprout's own contracts, from env (see DEPLOYMENTS.md). */
 export const sprout = {
   factory: addr(process.env.NEXT_PUBLIC_SPROUT_FACTORY),
   roots: addr(process.env.NEXT_PUBLIC_SPROUT_ROOTS),
@@ -78,6 +78,13 @@ export const sprout = {
 
 /** BEP-20 ZEC address: chain constant on mainnet, env override (mock) on testnet. */
 export const ZEC_TOKEN: Address | undefined = addr(process.env.NEXT_PUBLIC_ZEC_TOKEN) ?? chain.zec;
+
+/**
+ * Master switch for every user action (launch, trade, connect, sign in, deposit, cash out, flush).
+ * Off by default: the site renders live data, and any action shows a "not available yet" notice instead
+ * (see components/ComingSoon.tsx). Set NEXT_PUBLIC_ACTIONS_ENABLED=true and rebuild to turn actions on.
+ */
+export const ACTIONS_ENABLED = process.env.NEXT_PUBLIC_ACTIONS_ENABLED === 'true';
 
 export const IS_LIVE = Boolean(sprout.factory);
 export const CAN_LAUNCH = Boolean(sprout.factory && sprout.roots);

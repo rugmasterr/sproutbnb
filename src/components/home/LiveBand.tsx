@@ -55,7 +55,7 @@ export function LiveBand({ trades, coins }: { trades: Trade[]; coins: Coin[] }) 
     <div className="relative border-b border-line bg-raised/60">
       <div className="flex items-stretch">
         <div className="relative z-[1] hidden shrink-0 items-center gap-2 border-r border-line bg-raised px-5 font-mono text-[10.5px] font-medium uppercase tracking-[0.1em] text-muted sm:flex">
-          <StatusDot tone={live ? 'green' : 'yellow'} />
+          <StatusDot tone="green" />
           {L(live ? C.band.live : C.band.facts)}
         </div>
         <div className="min-w-0 flex-1 py-4">
