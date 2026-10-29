@@ -7,8 +7,8 @@
 #
 # Exactly ONE machine: the wallet SQLite DB and the payout state live on one volume, and two instances would race
 # to spend the same notes. Never `fly scale count 2`.
-app = "sprout-zforward"
-primary_region = "hkg"
+app = "sproutbnb-zforward"
+primary_region = "sin"
 
 [build]
   dockerfile = "Dockerfile"

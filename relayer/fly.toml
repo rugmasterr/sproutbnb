@@ -1,6 +1,6 @@
 # Sprout (春笋) passkey relayer — fly.io config. Deploy steps: see README.md (not deployed yet).
-app = "sprout-relayer"
-primary_region = "hkg"
+app = "sproutbnb-relayer"
+primary_region = "sin"
 
 [build]
   dockerfile = "Dockerfile"

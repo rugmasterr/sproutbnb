@@ -1,7 +1,7 @@
 # Sprout keeper on fly.io — one always-on machine with a small state volume.
 # Do NOT deploy before the Sprout contracts exist on BSC (see README).
-app = "sprout-keeper"
-primary_region = "hkg"
+app = "sproutbnb-keeper"
+primary_region = "sin"
 kill_signal = "SIGTERM"
 kill_timeout = "10s"
 
