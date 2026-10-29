@@ -6,9 +6,9 @@ import { useI18n } from '@/i18n/I18nProvider';
 import { ACTIONS_ENABLED } from '@/lib/config';
 
 /**
- * Action gate. With NEXT_PUBLIC_ACTIONS_ENABLED !== 'true' every user action (launch, trade, connect, sign in,
- * deposit, cash out, flush) shows a short bilingual notice instead of running: nothing is signed, sent or
- * opened in a wallet. With the flag on, gated handlers are passed through untouched.
+ * Action gate. With NEXT_PUBLIC_ACTIONS_ENABLED !== 'true' every transaction (launch, trade, deposit, cash out,
+ * flush) shows a short bilingual notice instead of running: nothing is signed or sent. Navigating, filling in
+ * forms, connecting a wallet and Zcash/passkey sign-in still work. With the flag on, gated handlers pass through.
  */
 const Ctx = createContext<() => void>(() => {});
 
@@ -108,7 +108,7 @@ export function useGate() {
   );
 }
 
-/** "Launch a coin"-style CTA: a normal link when actions are on, a button that shows the notice when off. */
+/** "Launch a coin"-style CTA. Always navigates; the gate sits on the final submit of the page it opens. */
 export function ActionLink({
   href,
   className,
@@ -120,25 +120,10 @@ export function ActionLink({
   children: React.ReactNode;
   onClick?: () => void;
 }) {
-  const notify = useComingSoon();
-  if (ACTIONS_ENABLED)
-    return (
-      <Link href={href} className={className} onClick={onClick}>
-        {children}
-      </Link>
-    );
   return (
-    <button
-      type="button"
-      className={className}
-      data-action={href}
-      onClick={() => {
-        onClick?.();
-        notify();
-      }}
-    >
+    <Link href={href} className={className} onClick={onClick} data-action={href}>
       {children}
-    </button>
+    </Link>
   );
 }
 

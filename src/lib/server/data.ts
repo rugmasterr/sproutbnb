@@ -253,9 +253,36 @@ async function readPlantings(): Promise<Planting[]> {
   return slices.flat().map((p) => ({ ...p, mode: Number(p.mode) }));
 }
 
+/**
+ * $SPROUT itself is listed even when it was launched outside the factory: real token + curve data,
+ * no vault. Skipped until the token is live on-chain (Portal reports it as valid).
+ */
+async function sproutListing(plantings: Planting[]): Promise<Coin | null> {
+  const token = sprout.token;
+  if (!token || plantings.some((p) => p.token.toLowerCase() === token.toLowerCase())) return null;
+  const [t] = await readTokens([token]);
+  if (!t?.raw || Number(t.raw.status) === TokenStatus.Invalid) return null;
+  return {
+    address: getAddress(token),
+    name: t.name ?? 'Sprout',
+    symbol: t.symbol ?? 'SPROUT',
+    creator: ZERO,
+    mode: 1,
+    plantedAt: Number(process.env.SPROUT_TOKEN_LAUNCHED_AT) || Math.floor(Date.now() / 1000),
+    stage: stageOf(t.state?.status, t.state?.progress),
+    state: t.state,
+    meta: await fetchMeta(t.metaCid),
+    metaCid: t.metaCid,
+    vault: null,
+    vaultAddress: ZERO,
+    feesWei: '0',
+  };
+}
+
 async function buildCoins(): Promise<Coin[]> {
   const plantings = await readPlantings();
-  if (plantings.length === 0) return [];
+  const listed = await sproutListing(plantings).catch(() => null);
+  if (plantings.length === 0) return listed ? [listed] : [];
   const tokens = plantings.map((p) => p.token);
   const [toks, vaults] = await Promise.all([readTokens(tokens), readVaults(plantings.map((p) => p.vault))]);
   const metas = await mapLimit(toks, 8, (t) => fetchMeta(t.metaCid));
@@ -278,7 +305,8 @@ async function buildCoins(): Promise<Coin[]> {
       feesWei: v ? v.receivedWei : '0',
     };
   });
-  return coins.reverse(); // newest first
+  coins.reverse(); // newest first
+  return listed ? [listed, ...coins] : coins;
 }
 
 const cachedCoins = unstable_cache(buildCoins, ['sprout-coins-v2'], { revalidate: REVALIDATE });
@@ -561,7 +589,7 @@ async function buildLedger(): Promise<{ entries: LedgerEntry[]; fromBlock: numbe
   const coins = await getCoins().catch(() => [] as Coin[]);
   const vaultToCoin = new Map(coins.map((c) => [c.vaultAddress.toLowerCase(), c]));
   const special = [sprout.roots, sprout.payouts, sprout.terminal].filter(Boolean) as Address[];
-  const addresses = [...special, ...coins.map((c) => c.vaultAddress as Address)];
+  const addresses = [...special, ...coins.filter((c) => c.vaultAddress !== ZERO).map((c) => c.vaultAddress as Address)];
   const latest = await logsClient.getBlockNumber();
   let fromBlock = latest > LEDGER_WINDOW ? latest - LEDGER_WINDOW : 0n;
   if (sprout.startBlock && sprout.startBlock > fromBlock) fromBlock = sprout.startBlock;

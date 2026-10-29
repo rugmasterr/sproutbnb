@@ -94,10 +94,10 @@ export function LaunchForm() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    // Actions off: the full form stays usable to look at, but planting only shows the notice.
-    if (!ACTIONS_ENABLED) return notify();
     setTouched(true);
     if (errors.length || !connected || !CAN_LAUNCH || busy) return;
+    // Actions off: the form validates and the wallet connects as normal, but deploying only shows the notice.
+    if (!ACTIONS_ENABLED) return notify();
     abort.current?.abort();
     const ac = new AbortController();
     abort.current = ac;
@@ -137,7 +137,7 @@ export function LaunchForm() {
     }
   }
 
-  const disabled = ACTIONS_ENABLED && !CAN_LAUNCH;
+  const disabled = !CAN_LAUNCH;
 
   // Presentation only: how far along the launch pipeline we are (upload → …7777 search → sign → done).
   // A 4-hex-digit suffix takes ~65,536 tries on average, so the salt bar shows the chance it has been found by now.
@@ -364,7 +364,7 @@ export function LaunchForm() {
           </div>
         )}
 
-        {ACTIONS_ENABLED && !connected && !disabled ? (
+        {!connected && !disabled ? (
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-dashed border-line-2 bg-raised/60 p-4">
             <span className="text-sm text-muted">{t('launch.connect')}</span>
             <ConnectButton />

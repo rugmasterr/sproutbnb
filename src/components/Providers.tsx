@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { WagmiProvider } from 'wagmi';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import type { Lang } from '@/i18n/dict';
-import { ACTIONS_ENABLED } from '@/lib/config';
 import { wagmiConfig } from '@/lib/wagmi';
 import { ZcashProvider } from '@/features/zcash';
 import { ComingSoonProvider } from './ComingSoon';
@@ -19,7 +18,7 @@ export function Providers({ lang, hasLangCookie, children }: { lang: Lang; hasLa
   );
   return (
     // With actions off, never touch an injected wallet (no silent reconnect).
-    <WagmiProvider config={wagmiConfig} reconnectOnMount={ACTIONS_ENABLED}>
+    <WagmiProvider config={wagmiConfig} reconnectOnMount>
       <QueryClientProvider client={qc}>
         <I18nProvider initial={lang} hasCookie={hasLangCookie}>
           <ComingSoonProvider>

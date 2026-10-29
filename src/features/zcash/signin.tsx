@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useConnect } from 'wagmi';
 import { BnbGlyph, ZecGlyph } from '@/components/brand';
-import { ACTIONS_ENABLED, useGate } from '@/components/ComingSoon';
 import { isValidZcashAddress } from './address';
 import { StatusDot } from '@/components/fx';
 import { Callout, Spinner, ZcashAddressInput } from './components';
@@ -48,7 +47,6 @@ export function SignInPanel({ initial = 'zcash', compact = false, onDone }: { in
 function ZcashPath({ compact, onDone }: { compact: boolean; onDone?: () => void }) {
   const { t } = useZT();
   const acct = useSproutAccount();
-  const gate = useGate();
   const [refund, setRefund] = useState('');
   const [payout, setPayout] = useState('');
   const [ack, setAck] = useState(false);
@@ -71,14 +69,12 @@ function ZcashPath({ compact, onDone }: { compact: boolean; onDone?: () => void 
     }
   };
 
-  // Actions off: buttons stay clickable and show the notice instead of running.
-  const on = ACTIONS_ENABLED;
   const canCreate = live && supported && ack && isValidZcashAddress(refund, ['t']) && (!payout || isValidZcashAddress(payout));
 
   return (
     <div className="space-y-3.5">
       {!compact && <p className="text-sm leading-6 text-muted">{t('si.zcashIntro')}</p>}
-      {on && !live && (
+      {!live && (
         <Callout tone="warn">
           <strong className="font-semibold">{t('si.notLiveTitle')}</strong> {t('si.notLive')}
         </Callout>
@@ -92,7 +88,7 @@ function ZcashPath({ compact, onDone }: { compact: boolean; onDone?: () => void 
             <StatusDot tone="yellow" className="mt-[7px]" />
             {t('si.welcomeBack')}
           </p>
-          <button type="button" className="btn-primary relative w-full" disabled={on && (!live || !!busy)} onClick={gate(() => run('login'))}>
+          <button type="button" className="btn-primary relative w-full" disabled={!live || !!busy} onClick={() => run('login')}>
             {busy === 'login' && <Spinner />}
             {t('si.signInPasskey')}
           </button>
@@ -113,11 +109,11 @@ function ZcashPath({ compact, onDone }: { compact: boolean; onDone?: () => void 
         </span>
       </label>
 
-      <button type="button" className={`${acct.knownPasskey ? 'btn-ghost' : 'btn-primary'} btn-lg w-full`} data-action="create-passkey" disabled={on && (!canCreate || !!busy)} onClick={gate(() => run('create'))}>
+      <button type="button" className={`${acct.knownPasskey ? 'btn-ghost' : 'btn-primary'} btn-lg w-full`} data-action="create-passkey" disabled={!canCreate || !!busy} onClick={() => run('create')}>
         {busy === 'create' && <Spinner />}
         {t('si.create')}
       </button>
-      <button type="button" className="btn-ghost w-full" disabled={on && (!live || !supported || !!busy)} onClick={gate(() => run('discover'))}>
+      <button type="button" className="btn-ghost w-full" disabled={!live || !supported || !!busy} onClick={() => run('discover')}>
         {busy === 'discover' && <Spinner />}
         {t('si.haveOne')}
       </button>
@@ -130,7 +126,6 @@ function ZcashPath({ compact, onDone }: { compact: boolean; onDone?: () => void 
 function BnbPath({ onDone }: { onDone?: () => void }) {
   const { t } = useZT();
   const { connectors, connectAsync, isPending } = useConnect();
-  const gate = useGate();
   const [err, setErr] = useState<unknown>(null);
   const [which, setWhich] = useState<string | null>(null);
   // EIP-6963 wallets first; drop the generic injected connector when specific ones exist.
@@ -146,8 +141,8 @@ function BnbPath({ onDone }: { onDone?: () => void }) {
             type="button"
             className="group flex items-center gap-3 rounded-xl border border-line bg-white/[0.02] px-3.5 py-3 text-left text-sm transition duration-300 ease-out hover:-translate-y-0.5 hover:border-accent/50 hover:bg-white/[0.04] disabled:opacity-50"
             data-action="connect-wallet"
-            disabled={ACTIONS_ENABLED && isPending}
-            onClick={gate(async () => {
+            disabled={isPending}
+            onClick={async () => {
               setErr(null);
               setWhich(c.uid);
               try {
@@ -158,7 +153,7 @@ function BnbPath({ onDone }: { onDone?: () => void }) {
               } finally {
                 setWhich(null);
               }
-            })}
+            }}
           >
             {c.icon ? <img src={c.icon} alt="" width={24} height={24} className="h-6 w-6 rounded" /> : <span className="grid h-6 w-6 place-items-center rounded-md border border-accent/40 bg-accent/10 text-[11px] font-bold text-accent">◆</span>}
             <span className="flex-1 font-medium">{c.id === 'injected' ? t('si.browserWallet') : c.name}</span>

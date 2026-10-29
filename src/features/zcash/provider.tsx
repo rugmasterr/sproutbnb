@@ -174,9 +174,8 @@ export function ZcashProvider({ children }: { children: React.ReactNode }) {
     setReady(true);
   }, []);
 
-  // With actions off (NEXT_PUBLIC_ACTIONS_ENABLED), no stored session is resumed: everyone browses signed out.
-  const signedIn = ACTIONS_ENABLED && record && !record.signedOut ? record : null;
-  const kind: AccountKind = signedIn ? 'passkey' : ACTIONS_ENABLED && wag.isConnected && wag.address ? 'evm' : 'none';
+  const signedIn = record && !record.signedOut ? record : null;
+  const kind: AccountKind = signedIn ? 'passkey' : wag.isConnected && wag.address ? 'evm' : 'none';
   const address = (signedIn?.address ?? (kind === 'evm' ? wag.address : undefined)) as `0x${string}` | undefined;
 
   useEffect(() => {
@@ -219,7 +218,6 @@ export function ZcashProvider({ children }: { children: React.ReactNode }) {
 
   const createPasskeyAccount = useCallback(
     async (opts: { zcashRefundAddress: string; zcashPayoutAddress?: string }) => {
-      if (!ACTIONS_ENABLED) throw new AccountError('coming-soon');
       if (!ACCOUNTS_LIVE) throw new AccountError('accounts-not-live');
       const refund = opts.zcashRefundAddress.trim();
       const payout = (opts.zcashPayoutAddress || '').trim();
@@ -248,7 +246,6 @@ export function ZcashProvider({ children }: { children: React.ReactNode }) {
 
   const loginPasskey = useCallback(
     async (opts?: { discover?: boolean }) => {
-      if (!ACTIONS_ENABLED) throw new AccountError('coming-soon');
       if (!ACCOUNTS_LIVE) throw new AccountError('accounts-not-live');
       const known = loadPasskey();
       if (known && !opts?.discover) {
@@ -438,7 +435,7 @@ export function ZcashProvider({ children }: { children: React.ReactNode }) {
       accountsLive: ACCOUNTS_LIVE,
       relayerLive: Boolean(RELAYER_URL),
       passkey: signedIn,
-      knownPasskey: ACTIONS_ENABLED && record && record.signedOut ? record : null,
+      knownPasskey: record && record.signedOut ? record : null,
       setZcashAddresses,
       refetchBalance: () => void bal.refetch(),
     }),

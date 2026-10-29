@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import { useI18n } from '@/i18n/I18nProvider';
-import { ACTIONS_ENABLED, IS_LIVE, sprout } from '@/lib/config';
+import { IS_LIVE, sprout } from '@/lib/config';
 import { Mark } from '../brand';
-import { useComingSoon } from '../ComingSoon';
 import { GlowPanel, Kicker, NodeTrack, Reveal, type TrackItem, Scramble } from '../fx';
 import { C, useL } from './copy';
 import { TwoLine } from './TwoLine';
@@ -49,12 +48,11 @@ export function Roadmap() {
 export function LaunchCta() {
   const { t } = useI18n();
   const L = useL();
-  const notify = useComingSoon();
   return (
     <section className="section pt-0">
       <div className="container">
         <Reveal>
-          <GlowPanel href={ACTIONS_ENABLED ? '/launch' : undefined} onClick={ACTIONS_ENABLED ? undefined : notify}>
+          <GlowPanel href="/launch">
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-end">
               <div className="min-w-0">
                 <div className="flex items-center gap-3">

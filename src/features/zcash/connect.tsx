@@ -42,11 +42,11 @@ export function ConnectButton() {
     return (
       <>
         <div className="flex items-center gap-1.5">
-          <button type="button" className="btn bg-gold py-1.5 text-ink hover:brightness-105" data-action="start-zcash" onClick={gate(() => setModal('zcash'))}>
+          <button type="button" className="btn bg-gold py-1.5 text-ink hover:brightness-105" data-action="start-zcash" onClick={() => setModal('zcash')}>
             <ZecGlyph size={14} />
             <span className="whitespace-nowrap">{t('cb.start')}</span>
           </button>
-          <button type="button" className="btn-ghost hidden py-1.5 xl:inline-flex" data-action="connect-bnb" onClick={gate(() => setModal('bnb'))}>
+          <button type="button" className="btn-ghost hidden py-1.5 xl:inline-flex" data-action="connect-bnb" onClick={() => setModal('bnb')}>
             {t('cb.bnb')}
           </button>
         </div>
